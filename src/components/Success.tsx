@@ -143,7 +143,7 @@ export default function Success() {
           transition={{ delay: 0.6 }}
           className="text-text-secondary text-xs mt-8"
         >
-          En cas de problème, contactez-nous : <a href="mailto:contact@ghostremixpack.com" className="text-neon-violet hover:underline">contact@ghostremixpack.com</a>
+          En cas de problème, contactez-nous : <a href="mailto:producerghostremixpack@gmail.com" className="text-neon-violet hover:underline">producerghostremixpack@gmail.com</a>
         </motion.p>
       </motion.div>
     </div>

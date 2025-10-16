@@ -27,7 +27,7 @@ export async function sendOrderConfirmation(orderData, customerData) {
   const msg = {
     to: email,
     bcc: 'producteurghostremixpack@gmail.com', // Copie cachée pour le propriétaire
-    from: process.env.SENDGRID_FROM_EMAIL || 'contact@ghostremixpack.com',
+    from: process.env.SENDGRID_FROM_EMAIL || 'producerghostremixpack@gmail.com',
     subject: `✅ Commande Confirmée #${orderId.slice(0, 8)} - Ghost Remix Pack`,
     text: `
 Bonjour ${name},
@@ -53,7 +53,7 @@ Vous gardez 100% des droits d'exploitation.
 Merci de votre confiance !
 
 L'équipe Ghost Remix Pack
-contact@ghostremixpack.com
+producerghostremixpack@gmail.com
     `,
     html: `
 <!DOCTYPE html>
@@ -120,7 +120,7 @@ contact@ghostremixpack.com
 
     <div class="footer">
       © 2025 Ghost Remix Pack — Remixes d'exception, signature anonyme<br/>
-      contact@ghostremixpack.com
+      producerghostremixpack@gmail.com
     </div>
   </div>
 </body>
@@ -154,7 +154,7 @@ export async function sendDeliveryEmail(orderData, customerData, downloadLinks) 
   const msg = {
     to: email,
     bcc: 'producteurghostremixpack@gmail.com', // Copie cachée pour le propriétaire
-    from: process.env.SENDGRID_FROM_EMAIL || 'contact@ghostremixpack.com',
+    from: process.env.SENDGRID_FROM_EMAIL || 'producerghostremixpack@gmail.com',
     subject: `🎵 Vos Packs Ghost Remix Sont Prêts ! #${orderId.slice(0, 8)}`,
     text: `
 Bonjour ${name},
@@ -181,7 +181,7 @@ ${linksList}
 Besoin d'aide ? Répondez à cet email.
 
 L'équipe Ghost Remix Pack
-contact@ghostremixpack.com
+producerghostremixpack@gmail.com
     `,
     html: `
 <!DOCTYPE html>
@@ -238,7 +238,7 @@ contact@ghostremixpack.com
 
     <div class="footer">
       © 2025 Ghost Remix Pack<br/>
-      Besoin d'aide ? contact@ghostremixpack.com
+      Besoin d'aide ? producerghostremixpack@gmail.com
     </div>
   </div>
 </body>

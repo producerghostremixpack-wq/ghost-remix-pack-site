@@ -611,7 +611,7 @@ export default function GhostRemixPack() {
                 )}
                 
                 {pack.category === 'services' ? (
-                  <a href={`mailto:contact@ghostremixpack.com?subject=Demande de devis - ${pack.name}`} className="block">
+                  <a href={`mailto:producerghostremixpack@gmail.com?subject=Demande de devis - ${pack.name}`} className="block">
                     <Button size="sm" className="w-full shadow-md text-xs group-hover:shadow-[0_0_20px_rgba(234,179,8,0.8)] group-hover:scale-105 group-hover:brightness-125 transition-all bg-gradient-to-r from-yellow-500 to-orange-500">
                       📧 Nous contacter
                     </Button>
