@@ -1,0 +1,60 @@
+═══════════════════════════════════════════════════════════
+🔧 CONFIGURATION RAILWAY - ROOT DIRECTORY
+═══════════════════════════════════════════════════════════
+
+❌ PROBLÈME DÉTECTÉ :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Cannot find module
+Error: Cannot find package.json
+ENOENT: no such file or directory
+
+✅ SOLUTION :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Le Root Directory sur Railway doit être configuré sur "backend"
+
+📋 INSTRUCTIONS :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Allez sur : https://railway.app
+2. Sélectionnez : "Ghost Remix Pack Site Production"
+3. Cliquez sur : "Settings"
+4. Trouvez : "Root Directory"
+5. Changez en : backend
+6. Cliquez sur : "Save"
+7. Railway redéploiera automatiquement
+
+⚠️  IMPORTANT :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+- Root Directory = "backend" (sans guillemets)
+- Pas de slash avant ou après
+- Juste le mot : backend
+
+✅ APRÈS CONFIGURATION :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Railway va :
+1. Chercher le package.json dans /backend
+2. Installer les dépendances
+3. Démarrer le serveur avec "node server.js"
+4. Le backend sera accessible
+
+⏱️  ATTENDEZ 2-3 MINUTES :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Après avoir changé le Root Directory, attendez que Railway redéploie.
+
+TEST :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Après 2-3 minutes, testez :
+👉 https://ghost-remix-pack-site-production.up.railway.app/api/health
+
+Ou relancez le diagnostic :
+cd railway-diagnostics
+npm run diagnose
+
+═══════════════════════════════════════════════════════════
+
