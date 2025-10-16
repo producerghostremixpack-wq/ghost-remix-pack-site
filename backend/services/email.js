@@ -255,6 +255,103 @@ producerghostremixpack@gmail.com
   }
 }
 
+/**
+ * Envoyer un email de contact
+ * @param {Object} contactData - Données du contact
+ */
+export async function sendContactEmail(contactData) {
+  const { name, email, subject, message } = contactData;
+
+  const msg = {
+    to: 'producerghostremixpack@gmail.com', // Vous recevez l'email
+    from: 'producerghostremixpack@gmail.com',
+    replyTo: email, // L'email du visiteur pour répondre directement
+    subject: `📧 Nouveau message de contact - ${subject || 'Contact'}`,
+    text: `
+Nouveau message de contact reçu !
+
+👤 Nom : ${name}
+📧 Email : ${email}
+📋 Sujet : ${subject || 'Contact'}
+📝 Message :
+${message}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Pour répondre, cliquez simplement sur "Répondre" dans votre client email.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ghost Remix Pack - Contact Form
+    `,
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #0B0B0F; color: #F5F5F7; padding: 20px; }
+    .container { max-width: 600px; margin: 0 auto; background: #141420; border-radius: 12px; padding: 30px; border: 1px solid #9B5CF6; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { color: #9B5CF6; font-size: 24px; margin: 0; }
+    .info-box { background: #0B0B0F; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #9B5CF6; }
+    .info-row { margin: 10px 0; }
+    .info-label { color: #9B5CF6; font-weight: bold; display: inline-block; width: 100px; }
+    .message-box { background: #0B0B0F; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #9B5CF6; }
+    .footer { text-align: center; margin-top: 30px; color: #888; font-size: 12px; }
+    .button { background: linear-gradient(135deg, #9B5CF6, #00E5FF); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; display: inline-block; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📧 Nouveau Message de Contact</h1>
+    </div>
+
+    <div class="info-box">
+      <div class="info-row">
+        <span class="info-label">👤 Nom :</span>
+        <span>${name}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">📧 Email :</span>
+        <span>${email}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">📋 Sujet :</span>
+        <span>${subject || 'Contact'}</span>
+      </div>
+    </div>
+
+    <div class="message-box">
+      <h3 style="color: #9B5CF6; margin-top: 0;">📝 Message :</h3>
+      <p style="white-space: pre-wrap; line-height: 1.6;">${message}</p>
+    </div>
+
+    <div style="text-align: center;">
+      <a href="mailto:${email}?subject=Re: ${subject || 'Contact'}" class="button">
+        ✉️ Répondre à ${name}
+      </a>
+    </div>
+
+    <div class="footer">
+      Pour répondre, cliquez simplement sur "Répondre" dans votre client email.<br/>
+      L'email de réponse sera envoyé à : ${email}
+    </div>
+  </div>
+</body>
+</html>
+    `,
+  };
+
+  try {
+    await sgMail.send(msg);
+    console.log(`✅ Email de contact envoyé à producerghostremixpack@gmail.com`);
+  } catch (error) {
+    console.error('❌ Erreur envoi email de contact:', error.message);
+    throw error;
+  }
+}
+
 export default sgMail;
 
 

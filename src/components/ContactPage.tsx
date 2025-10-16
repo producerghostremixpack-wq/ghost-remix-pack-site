@@ -52,13 +52,29 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus('sending');
     
-    // TODO: Appeler l'edge function Supabase pour envoyer l'email
-    // Pour l'instant, simulation
-    setTimeout(() => {
-      setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+    try {
+      const response = await fetch('https://ghost-remix-pack-site-production.up.railway.app/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setStatus('success');
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setStatus('idle'), 3000);
+      } else {
+        throw new Error(data.error || 'Erreur lors de l\'envoi');
+      }
+    } catch (error) {
+      console.error('❌ Erreur:', error);
+      setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
-    }, 1500);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {

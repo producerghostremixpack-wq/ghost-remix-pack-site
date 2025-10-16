@@ -157,6 +157,33 @@ export async function saveCustomer(customerData) {
   }
 }
 
+/**
+ * Sauvegarder un message de contact
+ * @param {Object} contactData - Données du contact
+ * @returns {String} ID du contact
+ */
+export async function saveContact(contactData) {
+  if (!isFirebaseInitialized) {
+    console.warn('⚠️  Firebase non disponible - Contact non sauvegardé');
+    return null;
+  }
+  
+  try {
+    const contactsRef = db.collection('contacts');
+    const docRef = await contactsRef.add({
+      ...contactData,
+      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      status: 'new',
+    });
+    
+    console.log(`✅ Contact sauvegardé: ${docRef.id}`);
+    return docRef.id;
+  } catch (error) {
+    console.error('❌ Erreur sauvegarde contact:', error.message);
+    throw error;
+  }
+}
+
 export { db };
 export default admin;
 

@@ -28,7 +28,7 @@ Le Root Directory sur Railway doit être configuré sur "backend"
 ⚠️  IMPORTANT :
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-- Root Directory = "backend" (sans guillemets)
+- Root Directory = backend (sans guillemets)
 - Pas de slash avant ou après
 - Juste le mot : backend
 
@@ -36,7 +36,7 @@ Le Root Directory sur Railway doit être configuré sur "backend"
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Railway va :
-1. Chercher le package.json dans /backend
+1. Chercher le package.json dans backend
 2. Installer les dépendances
 3. Démarrer le serveur avec "node server.js"
 4. Le backend sera accessible

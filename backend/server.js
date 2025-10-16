@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import checkoutRouter from './routes/checkout.js';
 import webhookRouter from './routes/webhook.js';
 import downloadRouter from './routes/download.js';
+import contactRouter from './routes/contact.js';
 
 // Configuration
 dotenv.config();
@@ -33,6 +34,7 @@ app.use('/api/checkout', checkoutRouter);
 // ⚠️ Webhook commenté temporairement (à activer après création webhook)
 // app.use('/api/webhook', webhookRouter);
 app.use('/api/download', downloadRouter);
+app.use('/api/contact', contactRouter);
 
 // Route de test
 app.get('/api/health', (req, res) => {
