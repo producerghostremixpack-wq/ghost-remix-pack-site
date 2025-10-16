@@ -53,12 +53,13 @@ app.use((err, req, res, next) => {
 });
 
 // Démarrage du serveur
-app.listen(PORT, '127.0.0.1', () => {
+// IMPORTANT: 0.0.0.0 permet d'écouter sur toutes les interfaces (nécessaire pour Railway)
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`
 ╔═══════════════════════════════════════════╗
 ║  🚀 Ghost Remix Backend API               ║
 ║  ✅ Serveur démarré sur port ${PORT}        ║
-║  📡 Frontend URL: ${process.env.FRONTEND_URL}  ║
+║  📡 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5173'}  ║
 ║  🔒 Stripe: ${process.env.STRIPE_SECRET_KEY ? 'Configuré ✅' : 'Non configuré ❌'}    ║
 ║  🗄️  Firebase: ${process.env.FIREBASE_PROJECT_ID ? 'Configuré ✅' : 'Non configuré ❌'} ║
 ║  📧 SendGrid: ${process.env.SENDGRID_API_KEY ? 'Configuré ✅' : 'Non configuré ❌'}   ║
