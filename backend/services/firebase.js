@@ -14,23 +14,27 @@ let db;
 let isFirebaseInitialized = false;
 
 try {
-  // Charger la clé de service Firebase
-  const serviceAccount = JSON.parse(
-    readFileSync(join(__dirname, '../serviceAccountKey.json'), 'utf8')
-  );
+  // Charger la clé de service Firebase depuis les variables d'environnement
+  if (process.env.FIREBASE_CREDENTIALS) {
+    const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    projectId: process.env.FIREBASE_PROJECT_ID,
-  });
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      databaseURL: process.env.FIREBASE_DATABASE_URL,
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    });
 
-  db = admin.firestore();
-  isFirebaseInitialized = true;
-  console.log('✅ Firebase initialisé avec succès');
+    db = admin.firestore();
+    isFirebaseInitialized = true;
+    console.log('✅ Firebase initialisé avec succès');
+  } else {
+    console.warn('⚠️  FIREBASE_CREDENTIALS non configuré');
+  }
   
 } catch (error) {
   console.warn('⚠️  Firebase non configuré - Le serveur fonctionnera en mode dégradé');
-  console.warn('⚠️  Pour activer Firebase, placez serviceAccountKey.json dans le dossier backend/');
+  console.warn('⚠️  Erreur:', error.message);
 }
 
 /**
