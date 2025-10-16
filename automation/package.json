@@ -1,0 +1,39 @@
+{
+  "name": "ghost-remix-pack-automation",
+  "version": "1.0.0",
+  "description": "Automatisation complète du déploiement Railway",
+  "type": "module",
+  "main": "deploy.js",
+  "scripts": {
+    "setup": "node setup.js",
+    "deploy": "node deploy.js",
+    "deploy:auto": "node deploy-auto.js",
+    "test": "node test.js",
+    "monitor": "node monitor.js",
+    "webhook": "node webhook-config.js",
+    "validate": "node validate.js"
+  },
+  "keywords": [
+    "railway",
+    "deployment",
+    "automation",
+    "stripe",
+    "firebase",
+    "sendgrid"
+  ],
+  "author": "Ghost Remix Pack",
+  "license": "MIT",
+  "dependencies": {
+    "inquirer": "^9.2.12",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "winston": "^3.11.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0"
+  }
+}
+
