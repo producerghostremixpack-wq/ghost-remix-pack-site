@@ -1,0 +1,70 @@
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+
+// Import des routes
+import checkoutRouter from './routes/checkout.js';
+import webhookRouter from './routes/webhook.js';
+import downloadRouter from './routes/download.js';
+
+// Configuration
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// Middleware
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true
+}));
+
+// IMPORTANT : Le webhook Stripe nécessite le raw body
+// ⚠️ Commenté temporairement si webhook non configuré
+// app.use('/api/webhook', express.raw({ type: 'application/json' }));
+
+// Body parser pour les autres routes
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Routes
+app.use('/api/checkout', checkoutRouter);
+// ⚠️ Webhook commenté temporairement (à activer après création webhook)
+// app.use('/api/webhook', webhookRouter);
+app.use('/api/download', downloadRouter);
+
+// Route de test
+app.get('/api/health', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    message: 'Ghost Remix Backend API is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Gestion des erreurs
+app.use((err, req, res, next) => {
+  console.error('❌ Erreur serveur:', err);
+  res.status(500).json({ 
+    error: 'Une erreur est survenue',
+    message: err.message 
+  });
+});
+
+// Démarrage du serveur
+app.listen(PORT, '127.0.0.1', () => {
+  console.log(`
+╔═══════════════════════════════════════════╗
+║  🚀 Ghost Remix Backend API               ║
+║  ✅ Serveur démarré sur port ${PORT}        ║
+║  📡 Frontend URL: ${process.env.FRONTEND_URL}  ║
+║  🔒 Stripe: ${process.env.STRIPE_SECRET_KEY ? 'Configuré ✅' : 'Non configuré ❌'}    ║
+║  🗄️  Firebase: ${process.env.FIREBASE_PROJECT_ID ? 'Configuré ✅' : 'Non configuré ❌'} ║
+║  📧 SendGrid: ${process.env.SENDGRID_API_KEY ? 'Configuré ✅' : 'Non configuré ❌'}   ║
+╚═══════════════════════════════════════════╝
+  `);
+});
+
+export default app;
+

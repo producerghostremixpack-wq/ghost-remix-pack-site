@@ -1,0 +1,64 @@
+# Fichiers à ignorer lors du déploiement Vercel
+
+# Backend
+backend/
+
+# Documentation
+*.md
+!README.md
+
+# Scripts
+*.sh
+
+# Environnement
+.env
+.env.*
+!.env.example
+
+# Build local
+dist/
+
+# Node modules (sera réinstallé par Vercel)
+node_modules/
+
+# Fichiers système
+.DS_Store
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Tasks et documentation développeur
+tasks/
+ai-dev-tasks/
+CHECKLIST-*.md
+GUIDE-*.md
+TUTO-*.md
+DESCRIPTIF-*.md
+STRIPE-*.md
+BACKEND-*.md
+PANIER-*.md
+GALERIE-*.md
+PARTENAIRES-*.md
+VIDEO-*.md
+INTRO-*.md
+DEPLOIEMENT-*.md
+DEPLOYER-*.md
+RESTE-*.md
+ETAPE-*.md
+CORRECTIONS-*.md
+ROADMAP-*.md
+MISE-EN-LIGNE-*.md
+DEMARRAGE-*.md
+ESTIMATION-*.md
+START-*.md
+TEST-*.md
+TESTER-*.md
+AI-DEV-*.md
+CLAUDE.md
+COMMANDES-GIT.sh
+

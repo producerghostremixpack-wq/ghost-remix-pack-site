@@ -1,0 +1,52 @@
+╔═══════════════════════════════════════════════════════════════════════╗
+║                                                                       ║
+║              ⚡ TAPEZ CETTE COMMANDE MAINTENANT                       ║
+║                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+
+Dans votre terminal, tapez EXACTEMENT :
+
+git push --set-upstream origin main
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Git va vous demander :
+
+Username for 'https://github.com': producerghostremixpack-wq
+
+Password for 'https://producerghostremixpack-wq@github.com': 
+
+
+⚠️ IMPORTANT : Le "Password" n'est PAS votre mot de passe GitHub !
+
+Il faut créer un TOKEN :
+
+1. Allez sur : https://github.com/settings/tokens
+2. Cliquez "Generate new token (classic)"
+3. Note : Ghost Remix Pack
+4. Cochez : repo
+5. Generate token
+6. COPIEZ le token (ghp_xxxxx)
+7. COLLEZ-LE dans le terminal quand il demande "Password"
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ APRÈS, votre code sera sur GitHub !
+
+Vérifiez sur : https://github.com/producerghostremixpack-wq/ghost-remix-pack
+
+Vous devriez voir tous vos fichiers (src/, backend/, etc.)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ENSUITE : Déployer sur Railway et Vercel
+
+Suivez : TOUT-DEPLOYER.md
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

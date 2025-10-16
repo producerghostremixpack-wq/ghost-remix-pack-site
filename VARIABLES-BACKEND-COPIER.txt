@@ -1,0 +1,48 @@
+╔════════════════════════════════════════════════════════════════════╗
+║  📋 VARIABLES D'ENVIRONNEMENT À COPIER DANS RAILWAY                ║
+╚════════════════════════════════════════════════════════════════════╝
+
+COPIEZ-COLLEZ ces variables UNE PAR UNE dans Railway > Variables
+
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 1 :
+━━━━━━━━━━
+Name: STRIPE_SECRET_KEY
+
+Value:
+sk_test_VOTRE_CLE_TEST_ICI
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 2 :
+━━━━━━━━━━
+Name: FRONTEND_URL
+
+Value:
+https://ghost-remix-pack-jygc9mfwa-hugo-s-projects-b1bae731.vercel.app
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 3 :
+━━━━━━━━━━
+Name: PORT
+
+Value:
+3001
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 4 :
+━━━━━━━━━━
+Name: NODE_ENV
+
+Value:
+production
+
+═══════════════════════════════════════════════════════════════════════
+
+✅ APRÈS avoir ajouté ces 4 variables, cliquer sur "Deploy" !
+
+═══════════════════════════════════════════════════════════════════════

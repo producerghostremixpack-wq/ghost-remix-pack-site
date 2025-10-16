@@ -1,0 +1,220 @@
+/* Ghost Remix Pack - Charte Graphique Néon */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Nouvelle charte Ghost Remix Pack */
+    --neon-violet: 155 92 246;
+    --neon-cyan: 0 229 255;
+    --bg-primary: 11 11 15;
+    --bg-card: 20 20 32;
+    --text-primary: 245 245 247;
+    --text-secondary: 176 176 192;
+    
+    /* shadcn/ui colors (mode sombre par défaut) */
+    --background: 11 11 15;
+    --foreground: 245 245 247;
+    --card: 20 20 32;
+    --card-foreground: 245 245 247;
+    --popover: 20 20 32;
+    --popover-foreground: 245 245 247;
+    --primary: 155 92 246;
+    --primary-foreground: 245 245 247;
+    --secondary: 20 20 32;
+    --secondary-foreground: 245 245 247;
+    --muted: 20 20 32;
+    --muted-foreground: 176 176 192;
+    --accent: 155 92 246;
+    --accent-foreground: 245 245 247;
+    --destructive: 239 68 68;
+    --destructive-foreground: 245 245 247;
+    --border: 155 92 246 / 0.2;
+    --input: 20 20 32;
+    --ring: 155 92 246;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-bg-primary text-text-primary antialiased;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Effets glow néon */
+  .glow-violet {
+    box-shadow: 0 0 20px rgba(155, 92, 246, 0.4);
+  }
+  
+  .glow-violet-intense {
+    box-shadow: 
+      0 0 20px rgba(155, 92, 246, 1),
+      0 0 40px rgba(155, 92, 246, 0.9),
+      0 0 80px rgba(155, 92, 246, 0.7),
+      0 0 120px rgba(155, 92, 246, 0.5),
+      0 0 160px rgba(155, 92, 246, 0.3);
+  }
+  
+  .glow-violet-ultra {
+    box-shadow: 
+      0 0 30px rgba(155, 92, 246, 1),
+      0 0 60px rgba(155, 92, 246, 1),
+      0 0 90px rgba(155, 92, 246, 0.8),
+      0 0 120px rgba(155, 92, 246, 0.6),
+      0 0 180px rgba(155, 92, 246, 0.4),
+      inset 0 0 40px rgba(155, 92, 246, 0.2);
+  }
+  
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+  }
+  
+  .glow-cyan-intense {
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.6), 0 0 60px rgba(0, 229, 255, 0.3);
+  }
+
+  /* Text glow pour effets hover */
+  .text-glow-violet {
+    text-shadow: 0 0 10px rgba(155, 92, 246, 0.6);
+  }
+  
+  .text-glow-cyan {
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+  }
+
+  /* Gradient néon pour boutons */
+  .gradient-neon {
+    background: linear-gradient(90deg, #9B5CF6, #00E5FF);
+  }
+  
+  .gradient-neon-reverse {
+    background: linear-gradient(90deg, #00E5FF, #9B5CF6);
+  }
+
+  /* Halo radial pour backgrounds */
+  .radial-glow-violet {
+    background: radial-gradient(circle at top right, rgba(155, 92, 246, 0.15), transparent 70%);
+  }
+  
+  .radial-glow-cyan {
+    background: radial-gradient(circle at top left, rgba(0, 229, 255, 0.15), transparent 70%);
+  }
+}
+
+@layer utilities {
+  /* Animations personnalisées */
+  .animate-glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(155, 92, 246, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(155, 92, 246, 0.6), 0 0 60px rgba(155, 92, 246, 0.3);
+    }
+  }
+
+  .animate-glow-pulse-intense {
+    animation: glow-pulse-intense 1.5s ease-in-out infinite;
+  }
+  
+  @keyframes glow-pulse-intense {
+    0%, 100% {
+      box-shadow: 
+        0 0 30px rgba(155, 92, 246, 1),
+        0 0 60px rgba(155, 92, 246, 0.8),
+        0 0 90px rgba(0, 229, 255, 0.6);
+    }
+    50% {
+      box-shadow: 
+        0 0 40px rgba(155, 92, 246, 1),
+        0 0 80px rgba(155, 92, 246, 1),
+        0 0 120px rgba(0, 229, 255, 0.8),
+        0 0 160px rgba(155, 92, 246, 0.5);
+    }
+  }
+
+  /* Animation éclair qui fait le tour */
+  .animate-lightning-border {
+    animation: lightning-border 0.8s ease-in-out;
+  }
+  
+  @keyframes lightning-border {
+    0% {
+      border-color: transparent;
+      box-shadow: none;
+    }
+    25% {
+      border-top-color: currentColor;
+      border-right-color: transparent;
+      box-shadow: 0 -5px 30px currentColor;
+    }
+    50% {
+      border-top-color: currentColor;
+      border-right-color: currentColor;
+      box-shadow: 5px -5px 40px currentColor, 5px 0 40px currentColor;
+    }
+    75% {
+      border-color: currentColor;
+      border-left-color: transparent;
+      box-shadow: 0 0 50px currentColor;
+    }
+    100% {
+      border-color: currentColor;
+      box-shadow: 0 0 60px currentColor, 0 0 120px currentColor;
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.6s ease-out forwards;
+  }
+  
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Backdrop blur pour zones semi-transparentes */
+  .backdrop-blur-neon {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Rotation lente pour le logo */
+  .animate-spin-slow {
+    animation: spin-slow 8s linear infinite;
+  }
+  
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
