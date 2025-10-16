@@ -26,6 +26,7 @@ export async function sendOrderConfirmation(orderData, customerData) {
 
   const msg = {
     to: email,
+    bcc: 'producteurghostremixpack@gmail.com', // Copie cachée pour le propriétaire
     from: process.env.SENDGRID_FROM_EMAIL || 'contact@ghostremixpack.com',
     subject: `✅ Commande Confirmée #${orderId.slice(0, 8)} - Ghost Remix Pack`,
     text: `
@@ -152,6 +153,7 @@ export async function sendDeliveryEmail(orderData, customerData, downloadLinks) 
 
   const msg = {
     to: email,
+    bcc: 'producteurghostremixpack@gmail.com', // Copie cachée pour le propriétaire
     from: process.env.SENDGRID_FROM_EMAIL || 'contact@ghostremixpack.com',
     subject: `🎵 Vos Packs Ghost Remix Sont Prêts ! #${orderId.slice(0, 8)}`,
     text: `
