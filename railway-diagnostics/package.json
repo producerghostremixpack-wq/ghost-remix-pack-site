@@ -1,0 +1,30 @@
+{
+  "name": "railway-diagnostics",
+  "version": "1.0.0",
+  "description": "Système intelligent de diagnostic et réparation automatique pour Railway",
+  "type": "module",
+  "main": "diagnose.js",
+  "scripts": {
+    "diagnose": "node diagnose.js",
+    "fix": "node auto-fix.js",
+    "test": "node test-all.js",
+    "monitor": "node monitor.js"
+  },
+  "keywords": [
+    "railway",
+    "diagnostics",
+    "auto-fix",
+    "devops"
+  ],
+  "author": "Ghost Remix Pack",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "inquirer": "^9.2.12",
+    "dotenv": "^16.3.1",
+    "cli-table3": "^0.6.5"
+  }
+}
+

@@ -9,7 +9,12 @@
     "dev": "nodemon server.js",
     "check": "node check-config.js"
   },
-  "keywords": ["stripe", "firebase", "sendgrid", "e-commerce"],
+  "keywords": [
+    "stripe",
+    "firebase",
+    "sendgrid",
+    "e-commerce"
+  ],
   "author": "Ghost Remix Pack",
   "license": "MIT",
   "dependencies": {
@@ -25,4 +30,3 @@
     "nodemon": "^3.0.2"
   }
 }
-

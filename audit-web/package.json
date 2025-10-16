@@ -1,0 +1,40 @@
+{
+  "name": "ghost-remix-pack-audit",
+  "version": "1.0.0",
+  "description": "Système d'analyse automatisée complète pour Ghost Remix Pack",
+  "type": "module",
+  "main": "audit-complete.js",
+  "scripts": {
+    "audit": "node audit-complete.js",
+    "audit:performance": "node audit-performance.js",
+    "audit:seo": "node audit-seo.js",
+    "audit:security": "node audit-security.js",
+    "audit:ux": "node audit-ux.js",
+    "audit:ecommerce": "node audit-ecommerce.js",
+    "audit:mobile": "node audit-mobile.js",
+    "report": "node generate-report.js"
+  },
+  "keywords": [
+    "audit",
+    "performance",
+    "seo",
+    "security",
+    "lighthouse",
+    "web-vitals"
+  ],
+  "author": "Ghost Remix Pack",
+  "license": "MIT",
+  "dependencies": {
+    "lighthouse": "^11.7.0",
+    "puppeteer": "^21.6.1",
+    "chrome-launcher": "^1.1.0",
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "chalk": "^5.3.0",
+    "ora": "^7.0.1",
+    "cli-table3": "^0.6.5",
+    "inquirer": "^9.2.12",
+    "dotenv": "^16.3.1"
+  }
+}
+
