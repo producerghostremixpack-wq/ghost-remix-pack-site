@@ -1,0 +1,145 @@
+╔════════════════════════════════════════════════════════════════════╗
+║  📋 VARIABLES À COPIER-COLLER DANS RENDER                          ║
+╚════════════════════════════════════════════════════════════════════╝
+
+COPIEZ-COLLEZ ces variables UNE PAR UNE dans Render > Environment Variables
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 1 : STRIPE_SECRET_KEY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+STRIPE_SECRET_KEY
+
+Value:
+[COLLEZ VOTRE CLÉ STRIPE SECRÈTE ICI - sk_test_...]
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 2 : STRIPE_PUBLISHABLE_KEY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+STRIPE_PUBLISHABLE_KEY
+
+Value:
+[COLLEZ VOTRE CLÉ STRIPE PUBLIQUE ICI - pk_test_...]
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 3 : FIREBASE_PROJECT_ID
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+FIREBASE_PROJECT_ID
+
+Value:
+ghost-remix-pack
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 4 : FIREBASE_CREDENTIALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+FIREBASE_CREDENTIALS
+
+Value:
+[COLLEZ TOUT LE CONTENU DU FICHIER JSON FIREBASE ICI]
+{
+  "type": "service_account",
+  "project_id": "...",
+  "private_key_id": "...",
+  "private_key": "...",
+  "client_email": "...",
+  "client_id": "...",
+  ...
+}
+
+⚠️ IMPORTANT : Coller TOUT le JSON, avec les accolades { }
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 5 : SENDGRID_API_KEY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+SENDGRID_API_KEY
+
+Value:
+[COLLEZ VOTRE CLÉ API SENDGRID ICI - SG.xxx...]
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 6 : SENDGRID_FROM_EMAIL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+SENDGRID_FROM_EMAIL
+
+Value:
+[COLLEZ VOTRE EMAIL VÉRIFIÉ SENDGRID ICI - exemple@email.com]
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 7 : PORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+PORT
+
+Value:
+3001
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 8 : NODE_ENV
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+NODE_ENV
+
+Value:
+production
+
+═══════════════════════════════════════════════════════════════════════
+
+VARIABLE 9 : FRONTEND_URL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Key:
+FRONTEND_URL
+
+Value:
+https://www.ghostremixpack.com
+
+═══════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+□ Variable 1 : STRIPE_SECRET_KEY
+□ Variable 2 : STRIPE_PUBLISHABLE_KEY
+□ Variable 3 : FIREBASE_PROJECT_ID
+□ Variable 4 : FIREBASE_CREDENTIALS
+□ Variable 5 : SENDGRID_API_KEY
+□ Variable 6 : SENDGRID_FROM_EMAIL
+□ Variable 7 : PORT
+□ Variable 8 : NODE_ENV
+□ Variable 9 : FRONTEND_URL
+
+═══════════════════════════════════════════════════════════════════════
+
+💡 COMMENT FAIRE :
+1. Ouvrez ce fichier : VARIABLES-RENDER-A-COPIER.txt
+2. Pour chaque variable :
+   - Copiez la Key
+   - Collez dans Render
+   - Copiez la Value
+   - Collez dans Render
+   - Cliquez "Add"
+3. Répétez pour les 9 variables
+
+═══════════════════════════════════════════════════════════════════════
+
