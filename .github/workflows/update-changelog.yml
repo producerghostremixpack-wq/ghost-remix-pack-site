@@ -1,0 +1,39 @@
+name: Update Changelog
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Generate changelog
+        run: |
+          echo "## [$(date +%Y-%m-%d)] - $(git log -1 --pretty=%B)" >> UPDATE-LOG.md
+          echo "" >> UPDATE-LOG.md
+          echo "### 📝 Commit: $(git log -1 --pretty=%H)" >> UPDATE-LOG.md
+          echo "### 👤 Auteur: $(git log -1 --pretty=%an)" >> UPDATE-LOG.md
+          echo "### 📅 Date: $(date '+%Y-%m-%d %H:%M')" >> UPDATE-LOG.md
+          echo "" >> UPDATE-LOG.md
+          echo "### 🔄 Modifications:" >> UPDATE-LOG.md
+          git log -1 --pretty=%B | sed 's/^/- /' >> UPDATE-LOG.md
+          echo "" >> UPDATE-LOG.md
+          echo "---" >> UPDATE-LOG.md
+          echo "" >> UPDATE-LOG.md
+      
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add UPDATE-LOG.md
+          git commit -m "docs: Update changelog [skip ci]" || exit 0
+          git push
+
