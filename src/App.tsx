@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
+import CustomCursor from './components/CustomCursor'
 import GhostRemixPack from './components/GhostRemixPack'
 import MentionsLegales from './components/MentionsLegales'
 import ContactPage from './components/ContactPage'
@@ -10,6 +11,7 @@ import Success from './components/Success'
 function App() {
   return (
     <CartProvider>
+      <CustomCursor />
       <Router>
         <Routes>
           <Route path="/" element={<GhostRemixPack />} />

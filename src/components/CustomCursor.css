@@ -1,0 +1,170 @@
+/* ============================================
+   CURSEUR PERSONNALISÉ - GHOST REMIX PACK
+   ============================================ */
+
+/* Désactiver le curseur par défaut */
+* {
+  cursor: none !important;
+}
+
+/* Curseur principal */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: transform 0.3s ease-out;
+}
+
+/* Point central du curseur */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #9B5CF6, #00E5FF);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 
+    0 0 10px rgba(155, 92, 246, 0.8),
+    0 0 20px rgba(0, 229, 255, 0.6),
+    0 0 30px rgba(155, 92, 246, 0.4);
+  transition: all 0.3s ease-out;
+}
+
+/* Effet de traînée */
+.cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(155, 92, 246, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  mix-blend-mode: difference;
+  transition: transform 0.15s ease-out;
+}
+
+/* État hover - Curseur agrandi */
+.custom-cursor.hover .cursor-dot {
+  width: 16px;
+  height: 16px;
+  background: linear-gradient(135deg, #00E5FF, #9B5CF6);
+  box-shadow: 
+    0 0 20px rgba(0, 229, 255, 1),
+    0 0 40px rgba(155, 92, 246, 0.8),
+    0 0 60px rgba(0, 229, 255, 0.6);
+}
+
+.custom-cursor.hover {
+  width: 40px;
+  height: 40px;
+}
+
+.cursor-trail.hover {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(0, 229, 255, 0.8);
+}
+
+/* État click - Animation d'impulsion */
+.custom-cursor.click .cursor-dot {
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #FFD700, #FF6B6B);
+  box-shadow: 
+    0 0 30px rgba(255, 215, 0, 1),
+    0 0 60px rgba(255, 107, 107, 0.8),
+    0 0 90px rgba(255, 215, 0, 0.6);
+  animation: pulse 0.3s ease-out;
+}
+
+.custom-cursor.click {
+  width: 30px;
+  height: 30px;
+}
+
+.cursor-trail.click {
+  width: 50px;
+  height: 50px;
+  border-color: rgba(255, 215, 0, 1);
+  animation: ripple 0.3s ease-out;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: translate(50%, 50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(50%, 50%) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Effet magnétique sur les boutons */
+button:hover,
+a:hover,
+.cursor-pointer:hover {
+  transition: transform 0.3s ease-out;
+}
+
+/* Curseur sur les zones de texte */
+input:focus,
+textarea:focus {
+  cursor: text !important;
+}
+
+/* Responsive - Désactiver sur mobile */
+@media (max-width: 768px) {
+  .custom-cursor,
+  .cursor-trail {
+    display: none !important;
+  }
+  
+  * {
+    cursor: auto !important;
+  }
+}
+
+/* Performance - GPU acceleration */
+.custom-cursor,
+.cursor-trail {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Mode sombre/clair automatique */
+@media (prefers-color-scheme: dark) {
+  .cursor-dot {
+    background: linear-gradient(135deg, #9B5CF6, #00E5FF);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .cursor-dot {
+    background: linear-gradient(135deg, #7C3AED, #0891B2);
+  }
+}
+

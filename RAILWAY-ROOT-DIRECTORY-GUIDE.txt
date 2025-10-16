@@ -1,0 +1,104 @@
+═══════════════════════════════════════════════════════════
+⚙️  CONFIGURATION RAILWAY - ROOT DIRECTORY
+═══════════════════════════════════════════════════════════
+
+🎯 PROBLÈME ACTUEL :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ Backend : Non accessible
+❌ Erreur 404 : Les routes ne sont pas trouvées
+
+💡 CAUSE :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Railway cherche le fichier server.js à la racine du projet,
+mais il est dans le dossier "backend".
+
+✅ SOLUTION :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Configurez le "Root Directory" sur Railway.
+
+📋 ÉTAPES PRÉCISES :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Ouvrez : https://railway.app
+   └─ Connectez-vous avec votre compte
+
+2. Cliquez sur votre projet :
+   └─ "Ghost Remix Pack Site Production"
+
+3. En haut de la page, cliquez sur :
+   └─ "Settings" (ou l'icône ⚙️)
+
+4. Cherchez dans la liste :
+   └─ "Root Directory" (ou "Source Directory")
+
+5. Changez la valeur :
+   └─ Actuellement : (vide ou ".")
+   └─ Nouvelle valeur : backend
+   
+6. Cliquez sur :
+   └─ "Save" (ou "Update")
+
+7. Railway va redéployer automatiquement
+   └─ Attendez 2-3 minutes
+
+⚠️  VALEUR EXACTE :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Root Directory : backend
+
+- Pas de guillemets
+- Pas de slash avant ou après
+- Juste le mot : backend
+
+✅ APRÈS CONFIGURATION :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Railway va redéployer (2-3 minutes)
+2. Consultez les logs pour voir :
+   ✅ "Serveur démarré sur port 3001"
+   ✅ "Firebase initialisé avec succès"
+
+3. Testez le backend :
+   👉 https://ghost-remix-pack-site-production.up.railway.app/api/health
+   
+   Vous devriez voir :
+   {
+     "status": "OK",
+     "message": "Ghost Remix Backend API is running",
+     "timestamp": "..."
+   }
+
+🔍 SI VOUS NE TROUVEZ PAS :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Essayez ces alternatives :
+
+Option 1 - Via le menu latéral :
+   1. Cliquez sur "Settings" dans le menu de gauche
+   2. Cherchez "Build & Deploy"
+   3. Trouvez "Root Directory"
+
+Option 2 - Via Deployments :
+   1. Cliquez sur "Deployments"
+   2. Cliquez sur le dernier déploiement
+   3. Cherchez "Configure" ou "Settings"
+
+Option 3 - Via Variables :
+   1. Cliquez sur "Variables"
+   2. Cherchez si "ROOT_DIRECTORY" existe
+   3. Si oui, changez en : backend
+   4. Si non, ajoutez : ROOT_DIRECTORY = backend
+
+💡 ASTUCE :
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Si vous ne trouvez toujours pas "Root Directory" :
+- Faites une capture d'écran de votre page Railway
+- Ou dites-moi ce que vous voyez dans "Settings"
+- Je vous guiderai précisément !
+
+═══════════════════════════════════════════════════════════
+
