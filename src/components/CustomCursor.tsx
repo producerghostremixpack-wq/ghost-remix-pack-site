@@ -42,8 +42,8 @@ export default function CustomCursor() {
         target.tagName === 'A' || 
         target.tagName === 'BUTTON' ||
         target.classList.contains('cursor-pointer') ||
-        target.closest('button') ||
-        target.closest('a');
+        target.closest('button') !== null ||
+        target.closest('a') !== null;
       
       setIsHovering(isInteractive);
     };
