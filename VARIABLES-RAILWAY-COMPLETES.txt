@@ -1,0 +1,172 @@
+╔════════════════════════════════════════════════════════════════════╗
+║  📋 TOUTES LES VARIABLES À AJOUTER DANS RAILWAY                    ║
+╚════════════════════════════════════════════════════════════════════╝
+
+COPIEZ-COLLEZ ces variables UNE PAR UNE dans Railway > Variables
+
+═══════════════════════════════════════════════════════════════════════
+
+🔑 VARIABLES STRIPE (OBLIGATOIRES)
+
+Variable 1 :
+━━━━━━━━━━
+Name: STRIPE_SECRET_KEY
+
+Value:
+sk_test_VOTRE_CLE_SECRETE_STRIPE
+
+👉 Trouver dans : Dashboard Stripe → Developers → API keys
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 2 :
+━━━━━━━━━━
+Name: STRIPE_PUBLISHABLE_KEY
+
+Value:
+pk_test_VOTRE_CLE_PUBLIQUE_STRIPE
+
+👉 Trouver dans : Dashboard Stripe → Developers → API keys
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 3 :
+━━━━━━━━━━
+Name: STRIPE_WEBHOOK_SECRET
+
+Value:
+whsec_VOTRE_WEBHOOK_SECRET
+
+👉 Trouver dans : Dashboard Stripe → Developers → Webhooks
+   (À ajouter APRÈS avoir généré le domaine Railway)
+
+═══════════════════════════════════════════════════════════════════════
+
+🔥 VARIABLES FIREBASE (OBLIGATOIRES)
+
+Variable 4 :
+━━━━━━━━━━
+Name: FIREBASE_PROJECT_ID
+
+Value:
+votre-project-id-firebase
+
+👉 Trouver dans : Console Firebase → Paramètres → ID du projet
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 5 :
+━━━━━━━━━━
+Name: FIREBASE_CREDENTIALS
+
+Value:
+{
+  "type": "service_account",
+  "project_id": "votre-project-id",
+  "private_key_id": "...",
+  "private_key": "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n",
+  "client_email": "...",
+  "client_id": "...",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "..."
+}
+
+👉 Télécharger depuis : Console Firebase → Paramètres → Comptes de service
+   → Générer nouvelle clé privée → Télécharger JSON
+
+⚠️ IMPORTANT : Coller TOUT le contenu du fichier JSON !
+
+═══════════════════════════════════════════════════════════════════════
+
+📧 VARIABLES SENDGRID (OBLIGATOIRES)
+
+Variable 6 :
+━━━━━━━━━━
+Name: SENDGRID_API_KEY
+
+Value:
+SG.VOTRE_CLE_API_SENDGRID
+
+👉 Trouver dans : Dashboard SendGrid → Settings → API Keys → Create API Key
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 7 :
+━━━━━━━━━━
+Name: SENDGRID_FROM_EMAIL
+
+Value:
+votre-email@example.com
+
+👉 Utiliser un email vérifié dans SendGrid
+
+═══════════════════════════════════════════════════════════════════════
+
+🌐 VARIABLES RAILWAY (OBLIGATOIRES)
+
+Variable 8 :
+━━━━━━━━━━
+Name: PORT
+
+Value:
+3001
+
+═══════════════════════════════════════════════════════════════════════
+
+Variable 9 :
+━━━━━━━━━━
+Name: NODE_ENV
+
+Value:
+production
+
+═══════════════════════════════════════════════════════════════════════
+
+🌍 VARIABLES FRONTEND (OBLIGATOIRES)
+
+Variable 10 :
+━━━━━━━━━━
+Name: FRONTEND_URL
+
+Value:
+https://www.ghostremixpack.com
+
+═══════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST DE CONFIGURATION
+
+□ Compte Railway créé
+□ Projet Railway créé depuis GitHub
+□ Root Directory configuré : /backend
+□ Variable 1 : STRIPE_SECRET_KEY
+□ Variable 2 : STRIPE_PUBLISHABLE_KEY
+□ Variable 3 : STRIPE_WEBHOOK_SECRET (après domaine généré)
+□ Variable 4 : FIREBASE_PROJECT_ID
+□ Variable 5 : FIREBASE_CREDENTIALS (JSON complet)
+□ Variable 6 : SENDGRID_API_KEY
+□ Variable 7 : SENDGRID_FROM_EMAIL
+□ Variable 8 : PORT
+□ Variable 9 : NODE_ENV
+□ Variable 10 : FRONTEND_URL
+□ Domaine Railway généré
+□ Webhook Stripe configuré avec le domaine Railway
+□ Test de l'API : curl https://votre-domaine.up.railway.app/api/health
+
+═══════════════════════════════════════════════════════════════════════
+
+🎯 ORDRE D'EXÉCUTION RECOMMANDÉ
+
+1. Créer le projet Railway
+2. Configurer Root Directory : /backend
+3. Ajouter variables 1, 2, 4, 5, 6, 7, 8, 9, 10
+4. Attendre le déploiement
+5. Générer le domaine Railway
+6. Configurer le webhook Stripe avec le domaine
+7. Ajouter variable 3 : STRIPE_WEBHOOK_SECRET
+8. Redéployer
+9. Tester l'API
+
+═══════════════════════════════════════════════════════════════════════
+
