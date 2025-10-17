@@ -264,7 +264,7 @@ export async function sendContactEmail(contactData) {
 
   const msg = {
     to: 'producerghostremixpack@gmail.com', // Vous recevez l'email
-    from: 'producerghostremixpack@gmail.com',
+    from: process.env.SENDGRID_FROM_EMAIL || 'producerghostremixpack@gmail.com',
     replyTo: email, // L'email du visiteur pour répondre directement
     subject: `📧 Nouveau message de contact - ${subject || 'Contact'}`,
     text: `
