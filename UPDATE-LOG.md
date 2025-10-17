@@ -114,3 +114,15 @@ Log des mises à jour en temps réel du site.
 
 **Maintenu par** : Ghost Remix Pack Team
 
+## [2025-10-17] - fix: Utiliser SENDGRID_FROM_EMAIL pour les emails de contact
+
+### 📝 Commit: 4dbad749ec98a81c349872b7310074be1f58ccb1
+### 👤 Auteur: producerghostremixpack-wq
+### 📅 Date: 2025-10-17 01:29
+
+### 🔄 Modifications:
+- fix: Utiliser SENDGRID_FROM_EMAIL pour les emails de contact
+- 
+
+---
+
