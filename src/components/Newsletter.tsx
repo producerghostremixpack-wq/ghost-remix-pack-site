@@ -1,259 +1,235 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Mail, Gift, Zap, Star, CheckCircle, AlertCircle, Loader } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-interface NewsletterProps {
-  className?: string;
-  variant?: 'default' | 'compact' | 'sidebar' | 'popup';
-  showGifts?: boolean;
-  autoFocus?: boolean;
-}
-
-interface SubscriptionResult {
+interface NewsletterResult {
   success: boolean;
   message: string;
   errorType?: 'invalid' | 'duplicate' | 'server';
+  mode?: string;
+  preview_user_email?: string;
+  preview_admin_notification?: string;
 }
 
-const Newsletter: React.FC<NewsletterProps> = ({ 
-  className = '', 
-  variant = 'default',
-  showGifts = true,
-  autoFocus = false
-}) => {
+export default function Newsletter() {
   const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<SubscriptionResult | null>(null);
-  const [showSuccess, setShowSuccess] = useState(false);
-
-  // Auto-focus sur l'input si demandé
-  useEffect(() => {
-    if (autoFocus) {
-      const input = document.getElementById('newsletter-email');
-      if (input) {
-        setTimeout(() => input.focus(), 100);
-      }
-    }
-  }, [autoFocus]);
-
-  // Réinitialiser le résultat après 5 secondes
-  useEffect(() => {
-    if (result) {
-      const timer = setTimeout(() => {
-        setResult(null);
-        if (result.success) {
-          setShowSuccess(false);
-        }
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [result]);
+  const [name, setName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [result, setResult] = useState<NewsletterResult | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!email.trim()) {
+    setIsSubmitting(true);
+    setResult(null);
+
+    // Validation côté client
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const cleanEmail = email.trim().toLowerCase();
+
+    if (!emailRegex.test(cleanEmail)) {
       setResult({
         success: false,
-        message: 'Veuillez entrer votre email',
+        message: 'Format d\'email invalide',
         errorType: 'invalid'
       });
+      setIsSubmitting(false);
       return;
     }
 
-    setIsLoading(true);
-    setResult(null);
-
     try {
-      const response = await fetch('/api/newsletter/subscribe', {
+      const apiUrl = import.meta.env.VITE_BACKEND_URL || 'https://ghost-remix-backend.up.railway.app';
+      
+      const response = await fetch(`${apiUrl}/api/newsletter`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
         },
-        body: JSON.stringify({ email: email.trim() }),
+        body: JSON.stringify({
+          email: cleanEmail,
+          name: name.trim() || 'Ghost Fan',
+          message: 'Inscription depuis le formulaire newsletter du site Ghost Remix Pack',
+          source: 'website-newsletter-form'
+        }),
       });
 
-      const data: SubscriptionResult = await response.json();
-      
-      setResult(data);
-      
-      if (data.success) {
-        setShowSuccess(true);
-        setEmail(''); // Vider le champ si succès
-        
-        // Analytics (optionnel)
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'newsletter_subscribe', {
-            event_category: 'engagement',
-            event_label: 'newsletter',
-            value: 1
-          });
-        }
-      }
+      const data = await response.json();
 
+      if (response.ok && data.success) {
+        setResult({
+          success: true,
+          message: data.message || '✅ Inscription confirmée ! Email envoyé depuis contact@ghostremixpack.com',
+          mode: data.mode,
+          preview_user_email: data.preview_user_email,
+          preview_admin_notification: data.preview_admin_notification
+        });
+        
+        // Reset form on success
+        setEmail('');
+        setName('');
+      } else {
+        setResult({
+          success: false,
+          message: data.error || data.message || 'Une erreur est survenue',
+          errorType: data.error?.includes('existe') ? 'duplicate' : 'server'
+        });
+      }
     } catch (error) {
-      console.error('❌ Erreur inscription newsletter:', error);
+      console.error('Newsletter error:', error);
       setResult({
         success: false,
-        message: 'Erreur de connexion. Veuillez réessayer.',
+        message: 'Erreur de connexion. Vérifiez votre connexion et réessayez.',
         errorType: 'server'
       });
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
-
-  const getVariantClasses = () => {
-    switch (variant) {
-      case 'compact':
-        return 'p-4 bg-gray-800/50 rounded-lg';
-      case 'sidebar':
-        return 'p-6 bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-xl border border-purple-500/20';
-      case 'popup':
-        return 'p-8 bg-gray-900 rounded-2xl shadow-2xl border border-gray-700';
-      default:
-        return 'p-8 bg-gradient-to-br from-purple-900/30 to-blue-900/30 rounded-2xl border border-purple-500/30';
-    }
-  };
-
-  const gifts = [
-    { icon: <Gift className="w-5 h-5" />, text: "3 loops trap exclusifs", value: "15€" },
-    { icon: <Star className="w-5 h-5" />, text: "Code promo -10%", value: "Immédiat" },
-    { icon: <Zap className="w-5 h-5" />, text: "Guide production PDF", value: "20 pages" },
-    { icon: <Mail className="w-5 h-5" />, text: "Accès prioritaire", value: "VIP" }
-  ];
-
-  if (showSuccess && result?.success) {
-    return (
-      <div className={`${getVariantClasses()} ${className}`}>
-        <div className="text-center">
-          <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CheckCircle className="w-8 h-8 text-green-400" />
-          </div>
-          <h3 className="text-xl font-bold text-white mb-2">
-            🎉 Inscription réussie !
-          </h3>
-          <p className="text-gray-300 mb-4">
-            {result.message}
-          </p>
-          <div className="bg-gray-800/50 rounded-lg p-4">
-            <p className="text-sm text-gray-400">
-              📧 Vérifiez votre boîte mail (et vos spams) pour confirmer votre inscription et recevoir vos cadeaux !
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className={`${getVariantClasses()} ${className}`}>
-      {/* Header */}
-      <div className="text-center mb-6">
-        <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-          <Mail className="w-6 h-6 text-purple-400" />
-        </div>
-        <h3 className="text-2xl font-bold text-white mb-2">
-          Newsletter Exclusive
-        </h3>
-        <p className="text-gray-300">
-          Rejoignez +1000 producteurs et recevez vos cadeaux de bienvenue
-        </p>
-      </div>
-
-      {/* Cadeaux */}
-      {showGifts && variant !== 'compact' && (
-        <div className="grid grid-cols-2 gap-3 mb-6">
-          {gifts.map((gift, index) => (
-            <div key={index} className="bg-gray-800/50 rounded-lg p-3 border border-gray-700/50">
-              <div className="flex items-center gap-2 mb-1">
-                <div className="text-purple-400">
-                  {gift.icon}
-                </div>
-                <span className="text-sm font-medium text-white">
-                  {gift.text}
-                </span>
-              </div>
-              <div className="text-xs text-gray-400">
-                Valeur: {gift.value}
-              </div>
+    <div className="bg-bg-card border border-neon-violet/20 rounded-2xl p-8 relative overflow-hidden">
+      {/* Background effects */}
+      <div className="absolute inset-0 bg-gradient-to-br from-neon-violet/5 to-neon-cyan/5 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-neon-violet/10 rounded-full blur-3xl pointer-events-none" />
+      
+      <div className="relative z-10">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="p-3 bg-neon-violet/20 rounded-xl">
+              <Mail className="text-neon-violet" size={24} />
             </div>
-          ))}
-        </div>
-      )}
-
-      {/* Formulaire */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="relative">
-          <input
-            id="newsletter-email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="votre@email.com"
-            className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
-            disabled={isLoading}
-            required
-          />
-          {email && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <CheckCircle className="w-5 h-5 text-green-400" />
-            </div>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          disabled={isLoading || !email.trim()}
-          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 disabled:cursor-not-allowed"
-        >
-          {isLoading ? (
-            <>
-              <Loader className="w-5 h-5 animate-spin" />
-              Inscription...
-            </>
-          ) : (
-            <>
-              <Gift className="w-5 h-5" />
-              Recevoir mes cadeaux gratuits
-            </>
-          )}
-        </button>
-      </form>
-
-      {/* Message de résultat */}
-      {result && !result.success && (
-        <div className="mt-4 p-3 bg-red-500/20 border border-red-500/30 rounded-lg flex items-center gap-2">
-          <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-          <p className="text-red-300 text-sm">
-            {result.message}
+            <h2 className="text-2xl font-bold text-text-primary">Newsletter Ghost</h2>
+          </div>
+          <p className="text-text-secondary max-w-md mx-auto">
+            Recevez les derniers packs exclusifs, avant-premières et offres spéciales directement dans votre boîte mail !
           </p>
         </div>
-      )}
 
-      {/* Footer */}
-      <div className="mt-6 text-center">
-        <p className="text-xs text-gray-500">
-          🔒 Vos données sont protégées. Pas de spam, désinscription en 1 clic.
-        </p>
-        {variant !== 'compact' && (
-          <div className="flex items-center justify-center gap-4 mt-3 text-xs text-gray-400">
-            <span className="flex items-center gap-1">
-              <CheckCircle className="w-3 h-3" />
-              Double opt-in
-            </span>
-            <span className="flex items-center gap-1">
-              <CheckCircle className="w-3 h-3" />
-              RGPD compliant
-            </span>
-            <span className="flex items-center gap-1">
-              <CheckCircle className="w-3 h-3" />
-              Désinscription facile
-            </span>
+        {/* Benefits */}
+        <div className="grid sm:grid-cols-3 gap-4 mb-8">
+          <div className="flex items-center gap-3 p-3 bg-neon-violet/10 rounded-lg">
+            <Gift className="text-neon-violet flex-shrink-0" size={20} />
+            <span className="text-sm text-text-secondary">Packs gratuits exclusifs</span>
           </div>
-        )}
+          <div className="flex items-center gap-3 p-3 bg-neon-cyan/10 rounded-lg">
+            <Zap className="text-neon-cyan flex-shrink-0" size={20} />
+            <span className="text-sm text-text-secondary">Avant-premières</span>
+          </div>
+          <div className="flex items-center gap-3 p-3 bg-neon-violet/10 rounded-lg">
+            <Star className="text-neon-violet flex-shrink-0" size={20} />
+            <span className="text-sm text-text-secondary">Codes promo VIP</span>
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name field */}
+          <div>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Votre nom (optionnel)"
+              className="w-full bg-bg-primary border border-neon-violet/30 rounded-xl px-4 py-3 text-text-primary placeholder-text-secondary focus:border-neon-violet focus:ring-2 focus:ring-neon-violet/20 focus:outline-none transition-all duration-300"
+            />
+          </div>
+
+          {/* Email field */}
+          <div>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="votre@email.com"
+              required
+              className="w-full bg-bg-primary border border-neon-violet/30 rounded-xl px-4 py-3 text-text-primary placeholder-text-secondary focus:border-neon-violet focus:ring-2 focus:ring-neon-violet/20 focus:outline-none transition-all duration-300"
+            />
+          </div>
+
+          {/* Submit button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-neon-violet to-neon-cyan text-white font-semibold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-neon-violet/30 transition-all duration-300 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-neon-violet focus:ring-offset-2"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader className="animate-spin" size={20} />
+                Inscription...
+              </>
+            ) : (
+              <>
+                <Mail size={20} />
+                S'inscrire à la newsletter
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* Result message */}
+        <AnimatePresence>
+          {result && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className={`mt-6 p-4 rounded-xl border flex items-start gap-3 ${
+                result.success
+                  ? 'bg-green-500/10 border-green-500/30 text-green-400'
+                  : 'bg-red-500/10 border-red-500/30 text-red-400'
+              }`}
+            >
+              {result.success ? (
+                <CheckCircle className="flex-shrink-0 mt-0.5" size={18} />
+              ) : (
+                <AlertCircle className="flex-shrink-0 mt-0.5" size={18} />
+              )}
+              <div className="flex-1">
+                <p className="font-medium">{result.message}</p>
+                {result.mode && (
+                  <p className="text-xs mt-1 opacity-75">Mode : {result.mode}</p>
+                )}
+                {result.success && (result.preview_user_email || result.preview_admin_notification) && (
+                  <div className="mt-3 space-y-2">
+                    <p className="text-xs font-medium">📧 Emails de test générés :</p>
+                    {result.preview_user_email && (
+                      <a 
+                        href={result.preview_user_email} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-xs text-blue-400 hover:text-blue-300 underline break-all"
+                      >
+                        👤 Voir email utilisateur
+                      </a>
+                    )}
+                    {result.preview_admin_notification && (
+                      <a 
+                        href={result.preview_admin_notification} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block text-xs text-blue-400 hover:text-blue-300 underline break-all"
+                      >
+                        🔔 Voir notification admin
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Footer info */}
+        <div className="mt-6 text-center">
+          <p className="text-xs text-text-secondary">
+            📧 Emails envoyés depuis <strong>contact@ghostremixpack.com</strong>
+          </p>
+          <p className="text-xs text-text-secondary/70 mt-1">
+            Désinscription possible à tout moment • Pas de spam garanti
+          </p>
+        </div>
       </div>
     </div>
   );
-};
-
-export default Newsletter;
+}
