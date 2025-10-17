@@ -138,3 +138,15 @@ Log des mises à jour en temps réel du site.
 
 ---
 
+## [2025-10-17] - fix: Railway configuration - Set Root Directory to backend
+
+### 📝 Commit: c6d61a8c1a0920d1e123fc5e7c7458aaa35d52f5
+### 👤 Auteur: producerghostremixpack-wq
+### 📅 Date: 2025-10-17 01:49
+
+### 🔄 Modifications:
+- fix: Railway configuration - Set Root Directory to backend
+- 
+
+---
+
