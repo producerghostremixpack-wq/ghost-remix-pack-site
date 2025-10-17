@@ -126,3 +126,15 @@ Log des mises à jour en temps réel du site.
 
 ---
 
+## [2025-10-17] - fix: Railway configuration - Install dependencies in backend directory
+
+### 📝 Commit: 2dde2da23d596b11da36df498cffd69130ea63e0
+### 👤 Auteur: producerghostremixpack-wq
+### 📅 Date: 2025-10-17 01:40
+
+### 🔄 Modifications:
+- fix: Railway configuration - Install dependencies in backend directory
+- 
+
+---
+
