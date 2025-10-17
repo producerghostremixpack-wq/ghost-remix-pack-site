@@ -21,8 +21,14 @@ export default function Checkout() {
     try {
       console.log('🛒 Envoi de la commande au backend...');
       
+      // URL du backend (depuis les variables d'environnement ou localhost par défaut)
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+      const apiUrl = `${backendUrl}/api/checkout/create-session`;
+      
+      console.log('📡 URL backend:', apiUrl);
+      
       // Appel à l'API backend pour créer la session Stripe
-      const response = await fetch('http://localhost:3001/api/checkout/create-session', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

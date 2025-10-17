@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Shield, Zap, Crown, Users, Award, Lock, Quote, Star } from 'lucide-react';
-import NewsletterForm from './NewsletterForm';
+import Newsletter from './Newsletter';
 import Logo from './Logo';
 import SiteAudioPlayer from './SiteAudioPlayer';
 import PackAudioPlayer from './PackAudioPlayer';
@@ -611,7 +611,7 @@ export default function GhostRemixPack() {
                 )}
                 
                 {pack.category === 'services' ? (
-                  <a href={`mailto:producerghostremixpack@gmail.com?subject=Demande de devis - ${pack.name}`} className="block">
+                  <a href={`mailto:contact@ghostremixpack.com?subject=Demande de devis - ${pack.name}`} className="block">
                     <Button size="sm" className="w-full shadow-md text-xs group-hover:shadow-[0_0_20px_rgba(234,179,8,0.8)] group-hover:scale-105 group-hover:brightness-125 transition-all bg-gradient-to-r from-yellow-500 to-orange-500">
                       📧 Nous contacter
                     </Button>
@@ -945,7 +945,7 @@ export default function GhostRemixPack() {
           </p>
           
           {/* Newsletter Form */}
-          <NewsletterForm />
+          <Newsletter variant="default" className="max-w-2xl mx-auto" />
           
           {/* Infos légales */}
           <p className="text-text-secondary/70 text-xs mb-6 max-w-2xl mx-auto mt-8">

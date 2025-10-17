@@ -35,7 +35,7 @@ async function testBackendHealth() {
 async function testEmailConfiguration() {
   log(chalk.yellow('\n📧 CONFIGURATION EMAIL :\n'));
   
-  log(chalk.white('✅ Email expéditeur : producerghostremixpack@gmail.com'));
+  log(chalk.white('✅ Email expéditeur : contact@ghostremixpack.com'));
   log(chalk.white('✅ Email BCC : producteurghostremixpack@gmail.com'));
   log(chalk.white('✅ SendGrid configuré'));
   
@@ -86,7 +86,7 @@ async function displayInstructions() {
   log(chalk.white('4. Cliquez sur "Valider le panier"'));
   log(chalk.white('5. Remplissez "Vos Informations" :'));
   log(chalk.gray('   - Nom : Test'));
-  log(chalk.gray('   - Email : producerghostremixpack@gmail.com (votre email)'));
+  log(chalk.gray('   - Email : contact@ghostremixpack.com (votre email)'));
   log(chalk.gray('   - Téléphone : 0123456789'));
   log(chalk.gray('   - Adresse : Test'));
   log(chalk.white('6. Payez avec une carte de test Stripe :'));

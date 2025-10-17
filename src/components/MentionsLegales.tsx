@@ -144,10 +144,10 @@ export default function MentionsLegales() {
             Pour toute question, collaboration ou problème technique, contactez
             notre équipe via :{" "}
             <a
-              href="mailto:producerghostremixpack@gmail.com"
+              href="mailto:contact@ghostremixpack.com"
               className="text-neon-violet hover:text-glow-violet hover:underline transition-all duration-300"
             >
-              producerghostremixpack@gmail.com
+              contact@ghostremixpack.com
             </a>
           </p>
         </section>

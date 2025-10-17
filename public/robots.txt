@@ -1,0 +1,26 @@
+# robots.txt pour ghostremixpack.com
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.ghostremixpack.com/sitemap.xml
+
+# Pages à ne pas indexer
+Disallow: /admin/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Autoriser les pages importantes
+Allow: /
+Allow: /products
+Allow: /about
+Allow: /contact
+Allow: /blog
+
+# Crawl-delay (optionnel - ralentit les robots)
+# Crawl-delay: 1
+

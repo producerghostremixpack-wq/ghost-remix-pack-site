@@ -126,7 +126,7 @@ Le fichier ressemble à ça :
 ```
 
 ### 6.4 Noter le contenu
-- **Copier TOUT le contenu** du fichier JSON
+- ** du fichier JSON
 - Le coller dans un fichier temporaire :
 ```bash
 nano mes-credentials-firebase.txt

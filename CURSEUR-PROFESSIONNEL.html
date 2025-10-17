@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curseur Professionnel - Ghost Remix Pack</title>
+    <style>
+        /* ============================================
+           VARIABLES CSS - PERSONNALISATION FACILE
+           ============================================ */
+        :root {
+            /* Couleurs - Adaptez à votre charte graphique */
+            --cursor-primary: #FF6B35;
+            --cursor-secondary: #004E89;
+            --cursor-accent: #00D9FF;
+            --cursor-dark: #1A1A1A;
+            --cursor-light: #FFFFFF;
+            
+            /* Tailles */
+            --cursor-size: 20px;
+            --follower-size: 40px;
+            --cursor-hover-scale: 1.5;
+            --cursor-click-scale: 0.8;
+            
+            /* Animations */
+            --cursor-transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --magnetic-strength: 0.3;
+            --trail-opacity: 0.3;
+            
+            /* Effects */
+            --cursor-glow: 0 0 20px var(--cursor-primary);
+            --cursor-opacity: 0.9;
+        }
+
+        /* ============================================
+           CURSEUR CUSTOM - BASE
+           ============================================ */
+        
+        /* Désactiver le curseur par défaut */
+        * {
+            cursor: none !important;
+        }
+
+        /* Curseur principal */
+        .custom-cursor {
+            position: fixed;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--cursor-primary) 0%, var(--cursor-secondary) 100%);
+            box-shadow: var(--cursor-glow);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: var(--cursor-opacity);
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
+            mix-blend-mode: difference;
+        }
+
+        /* Follower (traînée) */
+        .cursor-follower {
+            position: fixed;
+            width: var(--follower-size);
+            height: var(--follower-size);
+            border-radius: 50%;
+            border: 2px solid var(--cursor-accent);
+            pointer-events: none;
+            z-index: 9998;
+            opacity: var(--trail-opacity);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease-out, height 0.3s ease-out, opacity 0.3s ease-out;
+        }
+
+        /* Trail particles (optionnel - désactiver si trop lourd) */
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--cursor-accent);
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0.4;
+            transform: translate(-50%, -50%);
+        }
+
+        /* ============================================
+           ÉTATS DU CURSEUR
+           ============================================ */
+
+        /* État : Survol de lien */
+        .custom-cursor.hover-link {
+            width: calc(var(--cursor-size) * var(--cursor-hover-scale));
+            height: calc(var(--cursor-size) * var(--cursor-hover-scale));
+            background: var(--cursor-accent);
+            box-shadow: 0 0 30px var(--cursor-accent);
+        }
+
+        .custom-cursor.hover-link::after {
+            content: 'VIEW';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--cursor-dark);
+            white-space: nowrap;
+        }
+
+        /* État : Survol de bouton CTA */
+        .custom-cursor.hover-button {
+            width: calc(var(--cursor-size) * 2);
+            height: calc(var(--cursor-size) * 2);
+            background: linear-gradient(135deg, var(--cursor-primary), var(--cursor-accent));
+            box-shadow: 0 0 40px var(--cursor-primary);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .custom-cursor.hover-button::after {
+            content: 'CLICK';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--cursor-light);
+            white-space: nowrap;
+        }
+
+        /* État : Survol d'image */
+        .custom-cursor.hover-image {
+            width: calc(var(--cursor-size) * 1.8);
+            height: calc(var(--cursor-size) * 1.8);
+            background: var(--cursor-accent);
+            box-shadow: 0 0 35px var(--cursor-accent);
+        }
+
+        .custom-cursor.hover-image::after {
+            content: '🔍';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+        }
+
+        /* État : Survol de player audio */
+        .custom-cursor.hover-audio {
+            width: calc(var(--cursor-size) * 1.5);
+            height: calc(var(--cursor-size) * 1.5);
+            background: linear-gradient(45deg, var(--cursor-primary), var(--cursor-accent));
+            box-shadow: 0 0 30px var(--cursor-primary);
+            animation: musicPulse 1s ease-in-out infinite;
+        }
+
+        .custom-cursor.hover-audio::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            color: var(--cursor-light);
+        }
+
+        /* État : Clic */
+        .custom-cursor.click {
+            width: calc(var(--cursor-size) * var(--cursor-click-scale));
+            height: calc(var(--cursor-size) * var(--cursor-click-scale));
+            background: var(--cursor-light);
+            box-shadow: 0 0 50px var(--cursor-light);
+        }
+
+        /* État : Texte/Input */
+        .custom-cursor.hover-text {
+            width: 4px;
+            height: 30px;
+            border-radius: 2px;
+            background: var(--cursor-primary);
+            box-shadow: 0 0 15px var(--cursor-primary);
+        }
+
+        /* État : Drag */
+        .custom-cursor.drag {
+            width: calc(var(--cursor-size) * 1.2);
+            height: calc(var(--cursor-size) * 1.2);
+            background: var(--cursor-dark);
+            box-shadow: 0 0 25px var(--cursor-dark);
+        }
+
+        .custom-cursor.drag::after {
+            content: '✊';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+        }
+
+        /* ============================================
+           ANIMATIONS KEYFRAMES
+           ============================================ */
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.9;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes musicPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            25% {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            75% {
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(3);
+                opacity: 0;
+            }
+        }
+
+        /* Effet ripple au clic */
+        .cursor-ripple {
+            position: fixed;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            border: 2px solid var(--cursor-primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9996;
+            animation: ripple 0.6s ease-out;
+        }
+
+        /* ============================================
+           FALLBACK POUR MOBILE/TABLETTE
+           ============================================ */
+        
+        @media (hover: none) and (pointer: coarse) {
+            * {
+                cursor: auto !important;
+            }
+            
+            .custom-cursor,
+            .cursor-follower,
+            .cursor-trail {
+                display: none !important;
+            }
+        }
+
+        /* ============================================
+           STYLES DÉMO (pour tester le curseur)
+           ============================================ */
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--cursor-accent);
+        }
+
+        /* CTA Button */
+        .cta-button {
+            background: var(--cursor-primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            color: white;
+            margin-bottom: 4rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Products Grid */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--cursor-accent);
+            box-shadow: 0 10px 40px rgba(0, 217, 255, 0.3);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-card .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--cursor-accent);
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: var(--cursor-primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: none;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: var(--cursor-accent);
+            transform: scale(1.05);
+        }
+
+        /* Audio Player Section */
+        .audio-player {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 4rem;
+            color: white;
+        }
+
+        .audio-player h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        /* Text Area Section */
+        .text-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+        }
+
+        .text-area h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .text-area input,
+        .text-area textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .text-area input:focus,
+        .text-area textarea:focus {
+            outline: none;
+            border-color: var(--cursor-accent);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .text-area input::placeholder,
+        .text-area textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Magnetic Effect (pour les boutons importants) */
+        .magnetic {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+
+        /* ============================================
+           UTILITAIRES
+           ============================================ */
+
+        .hidden {
+            display: none;
+        }
+
+        /* Debug mode (afficher les zones interactives) */
+        .debug-mode a,
+        .debug-mode button,
+        .debug-mode input,
+        .debug-mode textarea,
+        .debug-mode img {
+            outline: 2px dashed red;
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         CURSEUR CUSTOM - ÉLÉMENTS
+         ============================================ -->
+    <div class="custom-cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- ============================================
+         CONTENU DÉMO
+         ============================================ -->
+    
+    <!-- Header -->
+    <header>
+        <nav>
+            <div>
+                <a href="#" class="nav-link">🏠 Home</a>
+                <a href="#" class="nav-link">🎵 Products</a>
+                <a href="#" class="nav-link">📖 About</a>
+                <a href="#" class="nav-link">📧 Contact</a>
+            </div>
+            <button class="cta-button magnetic">🛒 Add to Cart</button>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>🎵 Ghost Remix Pack</h1>
+            <p>Curseur professionnel interactif pour votre site e-commerce musical</p>
+            <p style="font-size: 1rem; opacity: 0.8;">
+                Survolez les éléments ci-dessous pour voir le curseur en action !
+            </p>
+        </section>
+
+        <!-- Products Grid -->
+        <section class="products">
+            <div class="product-card">
+                <img src="https://via.placeholder.com/400x200/667eea/ffffff?text=Trap+Remix+Pack+Vol.1" alt="Trap Remix Pack">
+                <h3>Trap Remix Pack Vol. 1</h3>
+                <p>20+ loops professionnels • 140-150 BPM</p>
+                <div class="price">€29.99</div>
+                <button class="add-to-cart magnetic">🛒 Ajouter au panier</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/400x200/764ba2/ffffff?text=Drill+Remix+Pack" alt="Drill Remix Pack">
+                <h3>Drill Remix Pack</h3>
+                <p>25+ loops énergiques • 130-140 BPM</p>
+                <div class="price">€34.99</div>
+                <button class="add-to-cart magnetic">🛒 Ajouter au panier</button>
+            </div>
+
+            <div class="product-card">
+                <img src="https://via.placeholder.com/400x200/f093fb/ffffff?text=Hip-Hop+Pack" alt="Hip-Hop Pack">
+                <h3>Hip-Hop Pack</h3>
+                <p>30+ loops old school • 80-100 BPM</p>
+                <div class="price">€39.99</div>
+                <button class="add-to-cart magnetic">🛒 Ajouter au panier</button>
+            </div>
+        </section>
+
+        <!-- Audio Player -->
+        <section class="audio-player">
+            <h2>🎧 Écoutez les démos</h2>
+            <audio controls>
+                <source src="#" type="audio/mpeg">
+                Votre navigateur ne supporte pas l'élément audio.
+            </audio>
+            <p style="opacity: 0.8; margin-top: 1rem;">
+                <strong>Note :</strong> Survolez le player pour voir l'effet musical du curseur
+            </p>
+        </section>
+
+        <!-- Text Area -->
+        <section class="text-area">
+            <h2>✍️ Testez les champs de texte</h2>
+            <input type="text" placeholder="Nom" class="text-input">
+            <input type="email" placeholder="Email" class="text-input">
+            <textarea placeholder="Votre message..." rows="5" class="text-input"></textarea>
+            <button class="cta-button magnetic" style="width: 100%;">Envoyer</button>
+        </section>
+
+        <!-- Info Section -->
+        <section style="background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 20px; padding: 2rem; color: white; text-align: center; margin-top: 2rem;">
+            <h2>✨ Fonctionnalités du Curseur</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 2rem;">
+                <div>
+                    <h3>🔗 Survol de liens</h3>
+                    <p>Agrandissement + texte "VIEW"</p>
+                </div>
+                <div>
+                    <h3>🔘 Survol de boutons</h3>
+                    <p>Effet pulse + texte "CLICK"</p>
+                </div>
+                <div>
+                    <h3>🖼️ Survol d'images</h3>
+                    <p>Loupe + effet zoom</p>
+                </div>
+                <div>
+                    <h3>🎵 Survol audio</h3>
+                    <p>Animation musicale</p>
+                </div>
+                <div>
+                    <h3>✍️ Survol de texte</h3>
+                    <p>Transformation en I-beam</p>
+                </div>
+                <div>
+                    <h3>👆 Clic</h3>
+                    <p>Effet ripple</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Ghost Remix Pack - Curseur Professionnel</p>
+        <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">
+            Développé avec ❤️ pour les producteurs musicaux
+        </p>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT - LOGIQUE DU CURSEUR
+         ============================================ -->
+    <script>
+        // ============================================
+        // INITIALISATION
+        // ============================================
+        
+        const cursor = document.querySelector('.custom-cursor');
+        const follower = document.querySelector('.cursor-follower');
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let followerX = 0;
+        let followerY = 0;
+        let isMoving = false;
+        let isDragging = false;
+        
+        // ============================================
+        // DÉTECTION MOBILE/TABLETTE
+        // ============================================
+        
+        function isMobileOrTablet() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                || (navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
+        }
+        
+        if (isMobileOrTablet()) {
+            // Désactiver le curseur custom sur mobile
+            document.body.classList.add('mobile-device');
+            console.log('📱 Détection mobile : Curseur custom désactivé');
+            return; // Arrêter l'exécution du script
+        }
+        
+        // ============================================
+        // TRACKING POSITION SOURIS
+        // ============================================
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Mettre à jour le curseur principal (instantané)
+            cursor.style.left = mouseX + 'px';
+            cursor.style.top = mouseY + 'px';
+            
+            isMoving = true;
+        });
+        
+        // ============================================
+        // ANIMATION FOLLOWER (SMOOTH FOLLOW)
+        // ============================================
+        
+        function animateFollower() {
+            // Calculer la différence
+            const dx = mouseX - followerX;
+            const dy = mouseY - followerY;
+            
+            // Appliquer un easing (suivi fluide)
+            followerX += dx * 0.15;
+            followerY += dy * 0.15;
+            
+            // Mettre à jour la position
+            follower.style.left = followerX + 'px';
+            follower.style.top = followerY + 'px';
+            
+            // Continuer l'animation
+            requestAnimationFrame(animateFollower);
+        }
+        
+        // Démarrer l'animation
+        animateFollower();
+        
+        // ============================================
+        // DÉTECTION DES ÉLÉMENTS INTERACTIFS
+        // ============================================
+        
+        // Sélectionner tous les éléments interactifs
+        const links = document.querySelectorAll('a');
+        const buttons = document.querySelectorAll('button');
+        const images = document.querySelectorAll('img');
+        const audioElements = document.querySelectorAll('audio');
+        const inputs = document.querySelectorAll('input, textarea');
+        
+        // ============================================
+        // GESTION DES LIENS
+        // ============================================
+        
+        links.forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover-link');
+                follower.style.width = '60px';
+                follower.style.height = '60px';
+                follower.style.opacity = '0.5';
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover-link');
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+                follower.style.opacity = '0.3';
+            });
+        });
+        
+        // ============================================
+        // GESTION DES BOUTONS
+        // ============================================
+        
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover-button');
+                follower.style.width = '80px';
+                follower.style.height = '80px';
+                follower.style.opacity = '0.6';
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover-button');
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+                follower.style.opacity = '0.3';
+            });
+        });
+        
+        // ============================================
+        // GESTION DES IMAGES
+        // ============================================
+        
+        images.forEach(img => {
+            img.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover-image');
+                follower.style.width = '70px';
+                follower.style.height = '70px';
+                follower.style.opacity = '0.5';
+            });
+            
+            img.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover-image');
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+                follower.style.opacity = '0.3';
+            });
+        });
+        
+        // ============================================
+        // GESTION DES PLAYERS AUDIO
+        // ============================================
+        
+        audioElements.forEach(audio => {
+            audio.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover-audio');
+                follower.style.width = '50px';
+                follower.style.height = '50px';
+                follower.style.opacity = '0.5';
+            });
+            
+            audio.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover-audio');
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+                follower.style.opacity = '0.3';
+            });
+        });
+        
+        // ============================================
+        // GESTION DES CHAMPS DE TEXTE
+        // ============================================
+        
+        inputs.forEach(input => {
+            input.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover-text');
+                follower.style.width = '30px';
+                follower.style.height = '30px';
+                follower.style.opacity = '0.4';
+            });
+            
+            input.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover-text');
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+                follower.style.opacity = '0.3';
+            });
+        });
+        
+        // ============================================
+        // GESTION DES CLICS
+        // ============================================
+        
+        document.addEventListener('mousedown', (e) => {
+            cursor.classList.add('click');
+            
+            // Créer un effet ripple
+            createRipple(e.clientX, e.clientY);
+        });
+        
+        document.addEventListener('mouseup', () => {
+            cursor.classList.remove('click');
+        });
+        
+        // ============================================
+        // FONCTION RIPPLE EFFECT
+        // ============================================
+        
+        function createRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.classList.add('cursor-ripple');
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            
+            document.body.appendChild(ripple);
+            
+            // Supprimer après l'animation
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+        
+        // ============================================
+        // EFFET MAGNÉTIQUE (pour boutons importants)
+        // ============================================
+        
+        const magneticButtons = document.querySelectorAll('.magnetic');
+        
+        magneticButtons.forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                // Déplacer le bouton légèrement vers le curseur
+                const strength = 0.3;
+                button.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+                
+                // Déplacer aussi le curseur
+                cursor.style.transform = `translate(-50%, -50%) translate(${x * 0.1}px, ${y * 0.1}px)`;
+            });
+            
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'translate(0, 0)';
+                cursor.style.transform = 'translate(-50%, -50%)';
+            });
+        });
+        
+        // ============================================
+        // GESTION DU DRAG
+        // ============================================
+        
+        document.addEventListener('dragstart', () => {
+            isDragging = true;
+            cursor.classList.add('drag');
+        });
+        
+        document.addEventListener('dragend', () => {
+            isDragging = false;
+            cursor.classList.remove('drag');
+        });
+        
+        // ============================================
+        // PERFORMANCE OPTIMISATIONS
+        // ============================================
+        
+        // Désactiver le curseur quand on quitte la fenêtre
+        document.addEventListener('mouseleave', () => {
+            cursor.style.opacity = '0';
+            follower.style.opacity = '0';
+        });
+        
+        document.addEventListener('mouseenter', () => {
+            cursor.style.opacity = '0.9';
+            follower.style.opacity = '0.3';
+        });
+        
+        // ============================================
+        // LOGS DE DEBUG
+        // ============================================
+        
+        console.log('✨ Curseur professionnel initialisé avec succès !');
+        console.log('📊 Éléments détectés :');
+        console.log(`   - ${links.length} liens`);
+        console.log(`   - ${buttons.length} boutons`);
+        console.log(`   - ${images.length} images`);
+        console.log(`   - ${audioElements.length} players audio`);
+        console.log(`   - ${inputs.length} champs de texte`);
+        
+        // ============================================
+        // FONCTION DE PERSONNALISATION DYNAMIQUE
+        // ============================================
+        
+        // Exposer une fonction globale pour changer les couleurs à la volée
+        window.updateCursorColors = function(primary, secondary, accent) {
+            document.documentElement.style.setProperty('--cursor-primary', primary);
+            document.documentElement.style.setProperty('--cursor-secondary', secondary);
+            document.documentElement.style.setProperty('--cursor-accent', accent);
+            console.log('🎨 Couleurs du curseur mises à jour !');
+        };
+        
+        // Exemple d'utilisation :
+        // updateCursorColors('#00FF00', '#0000FF', '#FF00FF');
+        
+    </script>
+</body>
+</html>
+

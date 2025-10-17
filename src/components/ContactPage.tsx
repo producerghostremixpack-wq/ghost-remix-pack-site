@@ -285,7 +285,7 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-center"
             >
-              ❌ Une erreur s'est produite. Réessayez ou contactez-nous à producerghostremixpack@gmail.com
+              ❌ Une erreur s'est produite. Réessayez ou contactez-nous à contact@ghostremixpack.com
             </motion.div>
           )}
         </motion.form>
@@ -299,10 +299,10 @@ export default function ContactPage() {
         >
           <p>Ou envoyez-nous un email directement :</p>
           <a
-            href="mailto:producerghostremixpack@gmail.com"
+            href="mailto:contact@ghostremixpack.com"
             className="text-neon-violet hover:text-glow-violet hover:underline transition-all duration-300 font-medium"
           >
-            producerghostremixpack@gmail.com
+            contact@ghostremixpack.com
           </a>
         </motion.div>
       </motion.div>

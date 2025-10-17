@@ -14,8 +14,14 @@ export default function Success() {
     const sessionId = params.get('session_id');
 
     if (sessionId) {
+      // URL du backend (depuis les variables d'environnement ou localhost par défaut)
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
+      const apiUrl = `${backendUrl}/api/checkout/session/${sessionId}`;
+      
+      console.log('📡 Récupération session:', apiUrl);
+      
       // Appeler l'API pour récupérer les détails de la session
-      fetch(`http://localhost:3001/api/checkout/session/${sessionId}`)
+      fetch(apiUrl)
         .then(res => res.json())
         .then(data => {
           if (data.success) {
@@ -143,7 +149,7 @@ export default function Success() {
           transition={{ delay: 0.6 }}
           className="text-text-secondary text-xs mt-8"
         >
-          En cas de problème, contactez-nous : <a href="mailto:producerghostremixpack@gmail.com" className="text-neon-violet hover:underline">producerghostremixpack@gmail.com</a>
+          En cas de problème, contactez-nous : <a href="mailto:contact@ghostremixpack.com" className="text-neon-violet hover:underline">contact@ghostremixpack.com</a>
         </motion.p>
       </motion.div>
     </div>

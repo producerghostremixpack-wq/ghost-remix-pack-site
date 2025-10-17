@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Checker - Ghost Remix Pack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ghost-purple': '#9B5CF6',
+                        'ghost-blue': '#00E5FF',
+                        'ghost-dark': '#0B0B0F',
+                        'ghost-gray': '#141420'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #0B0B0F 0%, #141420 100%);
+            min-height: 100vh;
+        }
+        .glow {
+            box-shadow: 0 0 20px rgba(155, 92, 246, 0.3);
+        }
+        .pulse-glow {
+            animation: pulse-glow 2s infinite;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(155, 92, 246, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(155, 92, 246, 0.6); }
+        }
+        .loading {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-white">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-4 bg-gradient-to-r from-ghost-purple to-ghost-blue bg-clip-text text-transparent">
+                🔍 DNS Checker Pro
+            </h1>
+            <p class="text-gray-300 text-lg">
+                Vérification complète de la configuration DNS et email
+            </p>
+            <p class="text-ghost-purple font-semibold mt-2">
+                Ghost Remix Pack - Diagnostic Expert
+            </p>
+        </div>
+
+        <!-- Formulaire de vérification -->
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="bg-ghost-gray rounded-2xl p-8 glow">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input 
+                        type="text" 
+                        id="domainInput" 
+                        value="ghostremixpack.com"
+                        placeholder="Entrez votre domaine"
+                        class="flex-1 px-4 py-3 bg-ghost-dark border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-ghost-purple focus:ring-2 focus:ring-ghost-purple/20"
+                    >
+                    <button 
+                        onclick="checkDomain()" 
+                        id="checkButton"
+                        class="px-8 py-3 bg-gradient-to-r from-ghost-purple to-ghost-blue hover:from-ghost-purple/80 hover:to-ghost-blue/80 rounded-lg font-semibold transition-all duration-200 pulse-glow"
+                    >
+                        🔍 Vérifier
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zone de résultats -->
+        <div id="results" class="hidden">
+            <!-- Score global -->
+            <div class="max-w-4xl mx-auto mb-8">
+                <div class="bg-ghost-gray rounded-2xl p-8 glow text-center">
+                    <div id="globalScore" class="text-6xl font-bold mb-4">
+                        <!-- Score sera injecté ici -->
+                    </div>
+                    <div id="globalStatus" class="text-xl mb-4">
+                        <!-- Statut sera injecté ici -->
+                    </div>
+                    <div id="providers" class="text-gray-300">
+                        <!-- Fournisseurs seront injectés ici -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sections détaillées -->
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- DNS Basique -->
+                <div class="bg-ghost-gray rounded-xl p-6 glow">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        📋 <span class="ml-2">DNS Basique</span>
+                        <span id="basicScore" class="ml-auto text-ghost-purple"></span>
+                    </h3>
+                    <div id="basicDetails" class="space-y-2">
+                        <!-- Détails DNS basique -->
+                    </div>
+                </div>
+
+                <!-- Configuration Email -->
+                <div class="bg-ghost-gray rounded-xl p-6 glow">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        📧 <span class="ml-2">Configuration Email</span>
+                        <span id="emailScore" class="ml-auto text-ghost-blue"></span>
+                    </h3>
+                    <div id="emailDetails" class="space-y-2">
+                        <!-- Détails email -->
+                    </div>
+                </div>
+
+                <!-- Sécurité -->
+                <div class="bg-ghost-gray rounded-xl p-6 glow">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        🔒 <span class="ml-2">Sécurité</span>
+                        <span id="securityScore" class="ml-auto text-yellow-400"></span>
+                    </h3>
+                    <div id="securityDetails" class="space-y-2">
+                        <!-- Détails sécurité -->
+                    </div>
+                </div>
+
+                <!-- Google Workspace -->
+                <div class="bg-ghost-gray rounded-xl p-6 glow">
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        🔍 <span class="ml-2">Google Workspace</span>
+                        <span id="googleScore" class="ml-auto text-green-400"></span>
+                    </h3>
+                    <div id="googleDetails" class="space-y-2">
+                        <!-- Détails Google -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommandations -->
+            <div id="recommendationsSection" class="max-w-4xl mx-auto mb-8 hidden">
+                <div class="bg-ghost-gray rounded-2xl p-8 glow">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center">
+                        🎯 <span class="ml-2">Recommandations</span>
+                    </h3>
+                    <div id="recommendations" class="space-y-4">
+                        <!-- Recommandations seront injectées ici -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enregistrements détaillés -->
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-ghost-gray rounded-2xl p-8 glow">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center">
+                        📝 <span class="ml-2">Enregistrements DNS</span>
+                    </h3>
+                    <div id="recordsDetails" class="space-y-4">
+                        <!-- Enregistrements seront injectés ici -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="hidden text-center py-12">
+            <div class="loading w-16 h-16 border-4 border-ghost-purple border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p class="text-xl text-gray-300">Vérification en cours...</p>
+            <p class="text-sm text-gray-500 mt-2">Analyse des enregistrements DNS et de la configuration email</p>
+        </div>
+
+        <!-- Error -->
+        <div id="error" class="hidden max-w-2xl mx-auto">
+            <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6 text-center">
+                <div class="text-4xl mb-4">❌</div>
+                <h3 class="text-xl font-bold mb-2">Erreur de vérification</h3>
+                <p id="errorMessage" class="text-gray-300"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const DNS_APIS = {
+            cloudflare: 'https://cloudflare-dns.com/dns-query',
+            google: 'https://dns.google/resolve'
+        };
+
+        // Variables globales
+        let currentResults = null;
+
+        /**
+         * Fonction principale de vérification
+         */
+        async function checkDomain() {
+            const domain = document.getElementById('domainInput').value.trim();
+            
+            if (!domain) {
+                showError('Veuillez entrer un nom de domaine');
+                return;
+            }
+
+            // Réinitialiser l'interface
+            hideAllSections();
+            showLoading();
+
+            try {
+                // Lancer toutes les vérifications en parallèle
+                const results = await Promise.all([
+                    checkBasicDNS(domain),
+                    checkEmailConfig(domain),
+                    checkSecurityRecords(domain),
+                    checkGoogleWorkspace(domain)
+                ]);
+
+                // Compiler les résultats
+                const compiledResults = compileResults(domain, results);
+                currentResults = compiledResults;
+
+                // Afficher les résultats
+                displayResults(compiledResults);
+
+            } catch (error) {
+                console.error('Erreur lors de la vérification:', error);
+                showError('Erreur lors de la vérification DNS. Veuillez réessayer.');
+            }
+        }
+
+        /**
+         * Vérification DNS basique
+         */
+        async function checkBasicDNS(domain) {
+            const results = {
+                A: [],
+                AAAA: [],
+                NS: [],
+                CNAME: [],
+                score: 0,
+                issues: []
+            };
+
+            try {
+                // Enregistrements A
+                const aRecords = await queryDNS(domain, 'A');
+                if (aRecords.length > 0) {
+                    results.A = aRecords;
+                    results.score += 5;
+                } else {
+                    results.issues.push('❌ Aucun enregistrement A trouvé');
+                }
+
+                // Enregistrements NS
+                const nsRecords = await queryDNS(domain, 'NS');
+                if (nsRecords.length > 0) {
+                    results.NS = nsRecords;
+                    results.score += 5;
+                } else {
+                    results.issues.push('❌ Aucun nameserver trouvé');
+                }
+
+                // Bonus pour la propagation
+                results.score += 10;
+
+            } catch (error) {
+                results.issues.push('❌ Erreur lors de la vérification DNS basique');
+            }
+
+            return results;
+        }
+
+        /**
+         * Vérification configuration email
+         */
+        async function checkEmailConfig(domain) {
+            const results = {
+                MX: [],
+                SPF: null,
+                DMARC: null,
+                score: 0,
+                issues: [],
+                provider: 'Inconnu'
+            };
+
+            try {
+                // Enregistrements MX
+                const mxRecords = await queryDNS(domain, 'MX');
+                if (mxRecords.length > 0) {
+                    results.MX = mxRecords.sort((a, b) => a.priority - b.priority);
+                    results.score += 10;
+                    results.provider = detectEmailProvider(mxRecords);
+                } else {
+                    results.issues.push('❌ Aucun enregistrement MX trouvé');
+                }
+
+                // SPF
+                const txtRecords = await queryDNS(domain, 'TXT');
+                const spfRecord = txtRecords.find(record => 
+                    record.toLowerCase().includes('v=spf1')
+                );
+                
+                if (spfRecord) {
+                    results.SPF = spfRecord;
+                    results.score += 7;
+                } else {
+                    results.issues.push('❌ Enregistrement SPF manquant');
+                }
+
+                // DMARC
+                const dmarcRecords = await queryDNS(`_dmarc.${domain}`, 'TXT');
+                const dmarcRecord = dmarcRecords.find(record => 
+                    record.toLowerCase().includes('v=dmarc1')
+                );
+                
+                if (dmarcRecord) {
+                    results.DMARC = dmarcRecord;
+                    results.score += 5;
+                } else {
+                    results.issues.push('❌ Enregistrement DMARC manquant');
+                }
+
+            } catch (error) {
+                results.issues.push('❌ Erreur lors de la vérification email');
+            }
+
+            return results;
+        }
+
+        /**
+         * Vérification sécurité
+         */
+        async function checkSecurityRecords(domain) {
+            const results = {
+                score: 0,
+                issues: [],
+                records: {}
+            };
+
+            // Pour la démo, on simule quelques vérifications
+            // Dans un vrai environnement, il faudrait des APIs spécialisées
+            
+            results.score += 10; // Score de base
+            results.issues.push('⚠️ Vérification DNSSEC nécessite des outils spécialisés');
+
+            return results;
+        }
+
+        /**
+         * Vérification Google Workspace
+         */
+        async function checkGoogleWorkspace(domain) {
+            const results = {
+                verified: false,
+                googleMX: false,
+                score: 0,
+                issues: []
+            };
+
+            try {
+                // Vérifier l'enregistrement de vérification Google
+                const txtRecords = await queryDNS(domain, 'TXT');
+                const googleVerification = txtRecords.find(record => 
+                    record.includes('google-site-verification=')
+                );
+
+                if (googleVerification) {
+                    results.verified = true;
+                    results.score += 10;
+                } else {
+                    results.issues.push('❌ Enregistrement de vérification Google manquant');
+                }
+
+                // Vérifier les MX Google
+                const mxRecords = await queryDNS(domain, 'MX');
+                const hasGoogleMX = mxRecords.some(record => 
+                    record.includes('google.com') || record.includes('googlemail.com')
+                );
+
+                if (hasGoogleMX) {
+                    results.googleMX = true;
+                    results.score += 5;
+                }
+
+            } catch (error) {
+                results.issues.push('❌ Erreur lors de la vérification Google');
+            }
+
+            return results;
+        }
+
+        /**
+         * Requête DNS via API publique
+         */
+        async function queryDNS(domain, type) {
+            try {
+                // Utiliser l'API DNS de Google
+                const response = await fetch(
+                    `${DNS_APIS.google}?name=${domain}&type=${type}`,
+                    {
+                        headers: {
+                            'Accept': 'application/dns-json'
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (!data.Answer) {
+                    return [];
+                }
+
+                return data.Answer.map(answer => {
+                    if (type === 'MX') {
+                        const parts = answer.data.split(' ');
+                        return {
+                            priority: parseInt(parts[0]),
+                            exchange: parts[1]
+                        };
+                    }
+                    return answer.data;
+                });
+
+            } catch (error) {
+                console.error(`Erreur requête DNS ${type} pour ${domain}:`, error);
+                return [];
+            }
+        }
+
+        /**
+         * Détecter le fournisseur email
+         */
+        function detectEmailProvider(mxRecords) {
+            const mx = mxRecords.map(record => 
+                typeof record === 'object' ? record.exchange : record
+            ).join(' ').toLowerCase();
+
+            if (mx.includes('google.com') || mx.includes('googlemail.com')) {
+                return 'Google Workspace';
+            }
+            if (mx.includes('ovh.net') || mx.includes('ovh.com')) {
+                return 'OVH Mail';
+            }
+            if (mx.includes('outlook.com') || mx.includes('microsoft.com')) {
+                return 'Microsoft 365';
+            }
+            if (mx.includes('zoho.com')) {
+                return 'Zoho Mail';
+            }
+
+            return 'Autre/Personnalisé';
+        }
+
+        /**
+         * Compiler tous les résultats
+         */
+        function compileResults(domain, results) {
+            const [basic, email, security, google] = results;
+            
+            const totalScore = basic.score + email.score + security.score + google.score;
+            const maxScore = 20 + 30 + 25 + 15; // Scores maximum par section
+
+            return {
+                domain,
+                timestamp: new Date().toISOString(),
+                score: totalScore,
+                maxScore,
+                sections: {
+                    basic: { ...basic, max: 20 },
+                    email: { ...email, max: 30 },
+                    security: { ...security, max: 25 },
+                    google: { ...google, max: 15 }
+                },
+                emailProvider: email.provider,
+                recommendations: generateRecommendations(results)
+            };
+        }
+
+        /**
+         * Générer les recommandations
+         */
+        function generateRecommendations(results) {
+            const recommendations = [];
+            const [basic, email, security, google] = results;
+
+            // Recommandations email
+            if (!email.SPF) {
+                recommendations.push({
+                    priority: 'HIGH',
+                    title: 'Configurer l\'enregistrement SPF',
+                    description: 'Améliorer la délivrabilité des emails',
+                    action: 'Ajouter un enregistrement TXT: v=spf1 include:_spf.google.com ~all'
+                });
+            }
+
+            if (!email.DMARC) {
+                recommendations.push({
+                    priority: 'MEDIUM',
+                    title: 'Configurer DMARC',
+                    description: 'Renforcer la sécurité des emails',
+                    action: 'Ajouter un enregistrement TXT sur _dmarc: v=DMARC1; p=quarantine'
+                });
+            }
+
+            if (!google.verified && email.provider === 'Google Workspace') {
+                recommendations.push({
+                    priority: 'HIGH',
+                    title: 'Vérifier le domaine Google',
+                    description: 'Nécessaire pour Google Workspace',
+                    action: 'Ajouter l\'enregistrement de vérification Google'
+                });
+            }
+
+            return recommendations;
+        }
+
+        /**
+         * Afficher les résultats
+         */
+        function displayResults(results) {
+            hideAllSections();
+            document.getElementById('results').classList.remove('hidden');
+
+            // Score global
+            const scorePercentage = Math.round((results.score / results.maxScore) * 100);
+            const scoreColor = scorePercentage >= 80 ? 'text-green-400' : 
+                              scorePercentage >= 60 ? 'text-yellow-400' : 'text-red-400';
+            
+            document.getElementById('globalScore').innerHTML = 
+                `<span class="${scoreColor}">${results.score}/${results.maxScore}</span>`;
+            
+            const statusText = scorePercentage >= 80 ? '✅ Configuration excellente' :
+                              scorePercentage >= 60 ? '⚠️ Configuration correcte' :
+                              '❌ Configuration à améliorer';
+            
+            document.getElementById('globalStatus').textContent = statusText;
+            document.getElementById('providers').innerHTML = 
+                `DNS: Auto-détecté • Email: ${results.emailProvider}`;
+
+            // Sections détaillées
+            displaySection('basic', results.sections.basic, '📋');
+            displaySection('email', results.sections.email, '📧');
+            displaySection('security', results.sections.security, '🔒');
+            displaySection('google', results.sections.google, '🔍');
+
+            // Recommandations
+            if (results.recommendations.length > 0) {
+                displayRecommendations(results.recommendations);
+            }
+
+            // Enregistrements détaillés
+            displayRecords(results.sections);
+        }
+
+        /**
+         * Afficher une section
+         */
+        function displaySection(sectionName, section, icon) {
+            const scoreElement = document.getElementById(`${sectionName}Score`);
+            const detailsElement = document.getElementById(`${sectionName}Details`);
+            
+            const percentage = Math.round((section.score / section.max) * 100);
+            const scoreColor = percentage >= 80 ? 'text-green-400' : 
+                              percentage >= 60 ? 'text-yellow-400' : 'text-red-400';
+            
+            scoreElement.innerHTML = `<span class="${scoreColor}">${section.score}/${section.max}</span>`;
+            
+            let html = '';
+            
+            // Afficher les éléments positifs
+            if (section.A && section.A.length > 0) {
+                html += `<div class="flex items-center text-green-400"><span class="mr-2">✅</span>Enregistrements A: ${section.A.length}</div>`;
+            }
+            if (section.MX && section.MX.length > 0) {
+                html += `<div class="flex items-center text-green-400"><span class="mr-2">✅</span>Serveurs MX: ${section.MX.length}</div>`;
+            }
+            if (section.SPF) {
+                html += `<div class="flex items-center text-green-400"><span class="mr-2">✅</span>SPF configuré</div>`;
+            }
+            if (section.DMARC) {
+                html += `<div class="flex items-center text-green-400"><span class="mr-2">✅</span>DMARC configuré</div>`;
+            }
+            if (section.verified) {
+                html += `<div class="flex items-center text-green-400"><span class="mr-2">✅</span>Domaine Google vérifié</div>`;
+            }
+            
+            // Afficher les problèmes
+            if (section.issues) {
+                section.issues.forEach(issue => {
+                    const color = issue.includes('❌') ? 'text-red-400' : 'text-yellow-400';
+                    html += `<div class="flex items-center ${color}"><span class="mr-2">${issue.charAt(0)}</span>${issue.substring(2)}</div>`;
+                });
+            }
+            
+            detailsElement.innerHTML = html || '<div class="text-gray-400">Aucune information disponible</div>';
+        }
+
+        /**
+         * Afficher les recommandations
+         */
+        function displayRecommendations(recommendations) {
+            document.getElementById('recommendationsSection').classList.remove('hidden');
+            const container = document.getElementById('recommendations');
+            
+            let html = '';
+            recommendations.forEach((rec, index) => {
+                const priorityColor = rec.priority === 'HIGH' ? 'border-red-500 bg-red-500/10' :
+                                     rec.priority === 'MEDIUM' ? 'border-yellow-500 bg-yellow-500/10' :
+                                     'border-green-500 bg-green-500/10';
+                
+                const priorityIcon = rec.priority === 'HIGH' ? '🔴' :
+                                    rec.priority === 'MEDIUM' ? '🟡' : '🟢';
+                
+                html += `
+                    <div class="border ${priorityColor} rounded-lg p-4">
+                        <div class="flex items-start">
+                            <span class="text-2xl mr-3">${priorityIcon}</span>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-lg mb-2">${rec.title}</h4>
+                                <p class="text-gray-300 mb-3">${rec.description}</p>
+                                <div class="bg-ghost-dark rounded p-3">
+                                    <p class="text-sm text-ghost-blue font-mono">${rec.action}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        /**
+         * Afficher les enregistrements détaillés
+         */
+        function displayRecords(sections) {
+            const container = document.getElementById('recordsDetails');
+            let html = '';
+            
+            // Enregistrements A
+            if (sections.basic.A && sections.basic.A.length > 0) {
+                html += `
+                    <div class="bg-ghost-dark rounded-lg p-4">
+                        <h4 class="font-bold mb-2 text-ghost-purple">Enregistrements A (IPv4)</h4>
+                        <div class="font-mono text-sm space-y-1">
+                            ${sections.basic.A.map(record => `<div>${record}</div>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Enregistrements MX
+            if (sections.email.MX && sections.email.MX.length > 0) {
+                html += `
+                    <div class="bg-ghost-dark rounded-lg p-4">
+                        <h4 class="font-bold mb-2 text-ghost-blue">Enregistrements MX (Email)</h4>
+                        <div class="font-mono text-sm space-y-1">
+                            ${sections.email.MX.map(record => 
+                                `<div>Priorité ${record.priority}: ${record.exchange}</div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // SPF
+            if (sections.email.SPF) {
+                html += `
+                    <div class="bg-ghost-dark rounded-lg p-4">
+                        <h4 class="font-bold mb-2 text-green-400">Enregistrement SPF</h4>
+                        <div class="font-mono text-sm break-all">${sections.email.SPF}</div>
+                    </div>
+                `;
+            }
+            
+            // DMARC
+            if (sections.email.DMARC) {
+                html += `
+                    <div class="bg-ghost-dark rounded-lg p-4">
+                        <h4 class="font-bold mb-2 text-yellow-400">Enregistrement DMARC</h4>
+                        <div class="font-mono text-sm break-all">${sections.email.DMARC}</div>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html || '<div class="text-gray-400 text-center py-8">Aucun enregistrement détaillé disponible</div>';
+        }
+
+        /**
+         * Fonctions utilitaires d'interface
+         */
+        function showLoading() {
+            document.getElementById('loading').classList.remove('hidden');
+        }
+
+        function hideAllSections() {
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('error').classList.add('hidden');
+        }
+
+        function showError(message) {
+            hideAllSections();
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('error').classList.remove('hidden');
+        }
+
+        // Permettre la vérification avec Entrée
+        document.getElementById('domainInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkDomain();
+            }
+        });
+
+        // Vérification automatique au chargement
+        window.addEventListener('load', function() {
+            // Petite pause pour l'effet visuel
+            setTimeout(() => {
+                checkDomain();
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+{
+  "name": "dns-checker-pro",
+  "version": "1.0.0",
+  "description": "Outil de diagnostic DNS complet pour Ghost Remix Pack",
+  "main": "checker.js",
+  "scripts": {
+    "check": "node checker.js",
+    "check-domain": "node checker.js",
+    "serve": "python3 -m http.server 8080 || python -m SimpleHTTPServer 8080",
+    "start": "npm run serve"
+  },
+  "keywords": [
+    "dns",
+    "checker",
+    "email",
+    "spf",
+    "dmarc",
+    "mx",
+    "diagnostic"
+  ],
+  "author": "Ghost Remix Pack",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "bin": {
+    "dns-check": "./checker.js"
+  }
+}

@@ -7,6 +7,8 @@ import ContactPage from './components/ContactPage'
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import Success from './components/Success'
+import Newsletter from './components/Newsletter'
+import NewsletterConfirm from './components/NewsletterConfirm'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<Success />} />
+          <Route path="/newsletter" element={<Newsletter />} />
+          <Route path="/newsletter/confirm" element={<NewsletterConfirm />} />
         </Routes>
       </Router>
     </CartProvider>

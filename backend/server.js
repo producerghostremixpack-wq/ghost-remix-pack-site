@@ -5,10 +5,11 @@ import bodyParser from 'body-parser';
 
 // Import des routes
 import checkoutRouter from './routes/checkout.js';
-import webhookRouter from './routes/webhook.js';
-import downloadRouter from './routes/download.js';
-import contactRouter from './routes/contact.js';
-
+import stripeRouter from './routes/stripe.js';import webhookRouter from './routes/webhook.js';
+import stripeRouter from './routes/stripe.js';import downloadRouter from './routes/download.js';
+import stripeRouter from './routes/stripe.js';import contactRouter from './routes/contact.js';
+import stripeRouter from './routes/stripe.js';import newsletterRouter from './routes/newsletter.js';
+import stripeRouter from './routes/stripe.js';
 // Configuration
 dotenv.config();
 
@@ -22,8 +23,16 @@ app.use(cors({
 }));
 
 // IMPORTANT : Le webhook Stripe nécessite le raw body
-// ⚠️ Commenté temporairement si webhook non configuré
-// app.use('/api/webhook', express.raw({ type: 'application/json' }));
+// Activer le webhook si STRIPE_WEBHOOK_SECRET est configuré
+if (process.env.STRIPE_WEBHOOK_SECRET) {
+  console.log('🔔 Webhook Stripe activé');
+  app.use('/api/webhook', express.raw({ type: 'application/json' }));
+  app.use('/api/webhook', webhookRouter);
+} else {
+  console.log('⚠️  Webhook Stripe désactivé (STRIPE_WEBHOOK_SECRET non configuré)');
+}
+
+app.use('/api/stripe', stripeRouter);
 
 // Body parser pour les autres routes
 app.use(bodyParser.json());
@@ -31,11 +40,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/checkout', checkoutRouter);
-// ⚠️ Webhook commenté temporairement (à activer après création webhook)
-// app.use('/api/webhook', webhookRouter);
-app.use('/api/download', downloadRouter);
-app.use('/api/contact', contactRouter);
-
+app.use('/api/stripe', stripeRouter);
+app.use('/api/stripe', stripeRouter);app.use('/api/download', downloadRouter);
+app.use('/api/stripe', stripeRouter);app.use('/api/contact', contactRouter);
+app.use('/api/stripe', stripeRouter);app.use('/api/newsletter', newsletterRouter);
+app.use('/api/stripe', stripeRouter);
 // Route de test
 app.get('/api/health', (req, res) => {
   res.json({ 
