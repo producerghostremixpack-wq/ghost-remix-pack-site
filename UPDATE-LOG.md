@@ -270,3 +270,51 @@ Nouveaux guides:
 
 ---
 
+## [2025-10-18] - fix: Corrections backend Firebase et Email Zimbra + Intégration paiement Stripe
+
+🔧 Corrections appliquées :
+- Firebase : Gestion optionnelle avec messages informatifs
+- Email Zimbra : rejectUnauthorized: false pour certificats auto-signés
+- server.js : Correction PathError avec app.use() au lieu de app.get('*')
+- CheckoutPage : Intégration StripePaymentForm
+
+✅ Nouvelles fonctionnalités :
+- backend/routes/payment-intent.js : Gestion Payment Intents Stripe
+- src/components/StripePaymentForm.tsx : Formulaire paiement intégré
+- CHANGELOG-BACKEND.md : Documentation des changements
+
+📝 Améliorations :
+- Messages d'erreur non-bloquants pour Firebase et Email
+- Logging cohérent avec emojis
+- Gestion d'erreurs robuste
+
+🎯 Le backend démarre maintenant sans warnings critiques
+
+### 📝 Commit: 0474be62bb2d3761d853afd520a952a7eaab26bb
+### 👤 Auteur: Ghost Remix Pack
+### 📅 Date: 2025-10-18 12:37
+
+### 🔄 Modifications:
+- fix: Corrections backend Firebase et Email Zimbra + Intégration paiement Stripe
+- 
+- 🔧 Corrections appliquées :
+- - Firebase : Gestion optionnelle avec messages informatifs
+- - Email Zimbra : rejectUnauthorized: false pour certificats auto-signés
+- - server.js : Correction PathError avec app.use() au lieu de app.get('*')
+- - CheckoutPage : Intégration StripePaymentForm
+- 
+- ✅ Nouvelles fonctionnalités :
+- - backend/routes/payment-intent.js : Gestion Payment Intents Stripe
+- - src/components/StripePaymentForm.tsx : Formulaire paiement intégré
+- - CHANGELOG-BACKEND.md : Documentation des changements
+- 
+- 📝 Améliorations :
+- - Messages d'erreur non-bloquants pour Firebase et Email
+- - Logging cohérent avec emojis
+- - Gestion d'erreurs robuste
+- 
+- 🎯 Le backend démarre maintenant sans warnings critiques
+- 
+
+---
+
