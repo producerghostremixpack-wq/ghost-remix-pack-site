@@ -4,6 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Shield, Zap, Crown, Users, Award, Lock, Quote, Star } from 'lucide-react';
 import Newsletter from './Newsletter';
+import PaymentSection from './PaymentSection';
+import SecurePayment from './SecurePayment';
 import Logo from './Logo';
 import SiteAudioPlayer from './SiteAudioPlayer';
 import PackAudioPlayer from './PackAudioPlayer';
@@ -11,7 +13,6 @@ import PartnersScroll from './PartnersScroll';
 import CartIcon from './CartIcon';
 import CartSidebar from './CartSidebar';
 import Toast, { useToast } from './Toast';
-import Gallery from './Gallery';
 import VideoIntro from './VideoIntro';
 import { useCart } from '@/context/CartContext';
 
@@ -352,9 +353,6 @@ export default function GhostRemixPack() {
             </a>
             <a href="#about" className="hover:text-neon-violet hover:text-glow-violet transition-all duration-300 font-medium">
               À propos
-            </a>
-            <a href="#gallery" className="hover:text-neon-violet hover:text-glow-violet transition-all duration-300 font-medium">
-              Galerie
             </a>
             <a href="/contact" className="hover:text-neon-violet hover:text-glow-violet transition-all duration-300 font-medium">
               Contact
@@ -928,8 +926,6 @@ export default function GhostRemixPack() {
         </div>
       </section>
 
-      {/* Galerie Photos */}
-      <Gallery />
 
       {/* Pied de page */}
       <footer className="border-t border-neon-violet/20 bg-bg-primary py-12 text-center">
