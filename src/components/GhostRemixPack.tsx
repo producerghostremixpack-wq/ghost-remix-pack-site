@@ -4,8 +4,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Shield, Zap, Crown, Users, Award, Lock, Quote, Star } from 'lucide-react';
 import Newsletter from './Newsletter';
-import PaymentSection from './PaymentSection';
-import SecurePayment from './SecurePayment';
 import Logo from './Logo';
 import SiteAudioPlayer from './SiteAudioPlayer';
 import PackAudioPlayer from './PackAudioPlayer';
@@ -941,7 +939,7 @@ export default function GhostRemixPack() {
           </p>
           
           {/* Newsletter Form */}
-          <Newsletter variant="default" className="max-w-2xl mx-auto" />
+          <Newsletter className="max-w-2xl mx-auto" />
           
           {/* Infos légales */}
           <p className="text-text-secondary/70 text-xs mb-6 max-w-2xl mx-auto mt-8">

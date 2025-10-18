@@ -52,6 +52,7 @@ const GHOST_PRODUCTS = {
     originalPrice: 53,
     description: 'Tous les packs + bonus exclusifs (Économie 8€)',
     features: ['37+ tracks WAV', 'Tous les stems', '50+ samples', 'Bonus exclusifs'],
+    originalPrice: 53,
     image: null,
     isPopular: true
   }

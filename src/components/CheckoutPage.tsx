@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Elements, useStripe, useElements } from '@stripe/react-stripe-js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   CreditCard, 
@@ -11,9 +11,7 @@ import {
   Loader,
   Music,
   Download,
-  User,
-  Mail,
-  Phone
+  User
 } from 'lucide-react';
 
 // Configuration Stripe

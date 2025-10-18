@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Send, Mail, MessageCircle, User, Subject } from 'lucide-react';
+import { ArrowLeft, Send, Mail, MessageCircle, User, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function ContactPage() {
@@ -225,7 +225,7 @@ export default function ContactPage() {
               {/* Sujet */}
               <div>
                 <label htmlFor="subject" className="flex items-center gap-2 text-text-primary font-medium mb-3">
-                  <Subject size={18} className="text-neon-violet" />
+                  <FileText size={18} className="text-neon-violet" />
                   Sujet
                 </label>
                 <select
