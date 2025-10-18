@@ -8,6 +8,7 @@ import contactRouter from './backend/routes/contact.js';
 import newsletterRouter from './backend/routes/newsletter.js';
 import paymentRouter from './backend/routes/payment.js';
 import checkoutDirectRouter from './backend/routes/checkout-direct.js';
+import paymentIntentRouter from './backend/routes/payment-intent.js';
 import webhookRouter from './backend/routes/webhook.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -34,6 +35,7 @@ app.use('/api/contact', contactRouter);
 app.use('/api/newsletter', newsletterRouter);
 app.use('/api/payment', paymentRouter);
 app.use('/api/payment', checkoutDirectRouter);
+app.use('/api/payment', paymentIntentRouter);
 app.use('/api/webhook', webhookRouter);
 
 // Health check
@@ -47,8 +49,9 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Catch-all pour React Router
-app.get('*', (req, res) => {
+// Catch-all pour React Router (doit être en dernier)
+// Note: On utilise app.use pour servir index.html pour toutes les routes non-API
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 

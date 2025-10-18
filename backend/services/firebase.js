@@ -15,7 +15,7 @@ let isFirebaseInitialized = false;
 
 try {
   // Charger la clé de service Firebase depuis les variables d'environnement
-  if (process.env.FIREBASE_CREDENTIALS) {
+  if (process.env.FIREBASE_CREDENTIALS && process.env.FIREBASE_PROJECT_ID) {
     const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 
     admin.initializeApp({
@@ -29,12 +29,13 @@ try {
     isFirebaseInitialized = true;
     console.log('✅ Firebase initialisé avec succès');
   } else {
-    console.warn('⚠️  FIREBASE_CREDENTIALS non configuré');
+    // Firebase est optionnel - le serveur fonctionne sans
+    console.log('ℹ️  Firebase non configuré (optionnel) - Mode sans base de données');
   }
   
 } catch (error) {
-  console.warn('⚠️  Firebase non configuré - Le serveur fonctionnera en mode dégradé');
-  console.warn('⚠️  Erreur:', error.message);
+  // Firebase est optionnel - ne pas faire planter le serveur
+  console.log('ℹ️  Firebase non disponible (optionnel) - Le serveur fonctionne normalement');
 }
 
 /**

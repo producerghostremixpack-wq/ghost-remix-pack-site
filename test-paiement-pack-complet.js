@@ -149,7 +149,7 @@ async function testEmailConfiguration() {
   console.log('🔍 4. Test configuration email Zimbra...');
   
   try {
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       host: CONFIG.ZIMBRA_CONFIG.host,
       port: CONFIG.ZIMBRA_CONFIG.port,
       secure: false,

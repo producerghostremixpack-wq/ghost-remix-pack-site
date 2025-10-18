@@ -13,6 +13,7 @@ import {
   Download,
   User
 } from 'lucide-react';
+import StripePaymentForm from './StripePaymentForm';
 
 // Configuration Stripe
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_votre_cle');
@@ -128,6 +129,25 @@ export default function CheckoutPage() {
                 total={calculateTotal()}
               />
             </Elements>
+            
+            {/* Nouveau formulaire de paiement intégré */}
+            {cart.length > 0 && (
+              <div className="mt-8">
+                <StripePaymentForm
+                  amount={calculateTotal()}
+                  productName={`${cart.length} produit(s) - Ghost Remix Pack`}
+                  productId="checkout-cart"
+                  onSuccess={(paymentIntent) => {
+                    console.log('✅ Paiement réussi:', paymentIntent);
+                    // Rediriger vers la page de succès
+                    window.location.href = `/success-stripe?payment_intent=${paymentIntent.id}`;
+                  }}
+                  onError={(error) => {
+                    console.error('❌ Erreur paiement:', error);
+                  }}
+                />
+              </div>
+            )}
           </div>
 
         </div>
