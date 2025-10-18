@@ -130,6 +130,7 @@ export default function BackgroundMusicPlayer() {
               onClick={togglePlay}
               disabled={isLoading || !!error}
               className="w-10 h-10 rounded-full bg-gradient-to-r from-neon-violet to-neon-cyan flex items-center justify-center glow-violet hover:scale-110 hover:brightness-125 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label={isLoading ? 'Chargement de la musique' : error ? error : isPlaying ? 'Mettre en pause' : 'Lire la musique'}
               title={isLoading ? 'Chargement...' : error ? error : 'Lecture/Pause'}
             >
               {isPlaying ? (
@@ -144,6 +145,7 @@ export default function BackgroundMusicPlayer() {
               <button
                 onClick={toggleMute}
                 className="text-text-secondary hover:text-neon-violet transition-colors"
+                aria-label={isMuted || volume === 0 ? 'Activer le son' : 'Couper le son'}
               >
                 {isMuted || volume === 0 ? (
                   <VolumeX size={20} />
@@ -163,6 +165,7 @@ export default function BackgroundMusicPlayer() {
                 style={{
                   background: `linear-gradient(to right, #9B5CF6 0%, #9B5CF6 ${volume * 100}%, #141420 ${volume * 100}%, #141420 100%)`
                 }}
+                aria-label={`Volume : ${Math.round(volume * 100)}%`}
               />
             </div>
           </div>

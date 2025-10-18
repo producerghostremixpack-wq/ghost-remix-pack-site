@@ -123,7 +123,7 @@ export default function TestNewsletterExample({
         <h3 className="text-2xl font-bold text-white mb-2">
           Newsletter Ghost Remix Pack
         </h3>
-        <p className="text-gray-400">
+        <p className="text-gray-600">
           Recevez les dernières actualités et offres exclusives
         </p>
       </div>
@@ -156,7 +156,7 @@ export default function TestNewsletterExample({
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Email Input */}
         <div>
-          <label htmlFor="newsletter-email" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="newsletter-email" className="block text-sm font-medium text-gray-600 mb-2">
             Adresse email
           </label>
           <div className="relative">

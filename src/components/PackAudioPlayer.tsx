@@ -183,6 +183,7 @@ export default function PackAudioPlayer({ audioUrl, trackTitle, color }: PackAud
           style={{
             boxShadow: `0 0 20px ${currentColor.shadow}`,
           }}
+          aria-label={isPlaying ? 'Mettre en pause' : 'Lire le remix'}
         >
           {isPlaying ? (
             <Pause size={16} className="text-bg-primary" />

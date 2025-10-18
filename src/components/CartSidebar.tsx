@@ -47,6 +47,7 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
               <button
                 onClick={onClose}
                 className="text-text-secondary hover:text-neon-violet hover:rotate-90 transition-all duration-300"
+                aria-label="Fermer le panier"
               >
                 <X size={28} />
               </button>
@@ -90,6 +91,7 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                       <button
                         onClick={() => removeFromCart(item.product.id)}
                         className="text-red-400 hover:text-red-300 hover:scale-110 transition-all ml-2"
+                        aria-label={`Supprimer ${item.product.name} du panier`}
                       >
                         <Trash2 size={18} />
                       </button>
@@ -102,17 +104,19 @@ export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
                         <button
                           onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
                           className="w-7 h-7 rounded-full bg-bg-card border border-neon-violet/30 hover:border-neon-violet hover:bg-neon-violet/20 transition-all flex items-center justify-center"
+                          aria-label={`Diminuer la quantité de ${item.product.name}`}
                         >
                           <Minus size={14} />
                         </button>
                         
-                        <span className="text-lg font-bold text-text-primary w-8 text-center">
+                        <span className="text-lg font-bold text-text-primary w-8 text-center" aria-label={`Quantité : ${item.quantity}`}>
                           {item.quantity}
                         </span>
                         
                         <button
                           onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                           className="w-7 h-7 rounded-full bg-bg-card border border-neon-violet/30 hover:border-neon-violet hover:bg-neon-violet/20 transition-all flex items-center justify-center"
+                          aria-label={`Augmenter la quantité de ${item.product.name}`}
                         >
                           <Plus size={14} />
                         </button>

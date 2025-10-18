@@ -137,6 +137,7 @@ export default function SiteAudioPlayer() {
             <button
               onClick={togglePlay}
               className="w-12 h-12 rounded-full bg-gradient-to-r from-neon-violet to-neon-cyan flex items-center justify-center glow-violet hover:scale-110 hover:brightness-125 transition-all duration-300"
+              aria-label={isPlaying ? 'Mettre en pause' : 'Lire la musique'}
               title={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? (
@@ -151,6 +152,7 @@ export default function SiteAudioPlayer() {
               <button
                 onClick={toggleMute}
                 className="text-text-secondary hover:text-neon-violet transition-colors"
+                aria-label={isMuted || volume === 0 ? 'Activer le son' : 'Couper le son'}
                 title={isMuted ? 'Activer le son' : 'Couper le son'}
               >
                 {isMuted || volume === 0 ? (
@@ -171,6 +173,7 @@ export default function SiteAudioPlayer() {
                 style={{
                   background: `linear-gradient(to right, #9B5CF6 0%, #00E5FF ${volume * 100}%, #141420 ${volume * 100}%, #141420 100%)`
                 }}
+                aria-label={`Volume : ${Math.round(volume * 100)}%`}
               />
             </div>
           </div>

@@ -39,7 +39,9 @@ export default function NewsletterForm() {
 
         {/* Formulaire */}
         <div className="flex gap-2">
+          <label htmlFor="newsletter-email" className="sr-only">Adresse email</label>
           <input
+            id="newsletter-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -47,6 +49,7 @@ export default function NewsletterForm() {
             required
             disabled={status === 'sending' || status === 'success'}
             className="flex-1 bg-bg-card border border-neon-violet/30 rounded-full px-4 py-2 text-text-primary text-sm focus:border-neon-violet focus:outline-none focus:ring-2 focus:ring-neon-violet/50 transition-all disabled:opacity-50"
+            aria-label="Adresse email pour la newsletter"
           />
           <Button
             type="submit"

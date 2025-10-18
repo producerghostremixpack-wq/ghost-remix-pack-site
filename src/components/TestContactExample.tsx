@@ -178,7 +178,7 @@ export default function TestContactExample({
         <h3 className="text-2xl font-bold text-white mb-2">
           Contactez-nous
         </h3>
-        <p className="text-gray-400">
+        <p className="text-gray-600">
           Nous répondons sous 24h via Zimbra OVH
         </p>
       </div>
@@ -211,7 +211,7 @@ export default function TestContactExample({
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name Input */}
         <div>
-          <label htmlFor="contact-name" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="contact-name" className="block text-sm font-medium text-gray-600 mb-2">
             Nom complet
           </label>
           <div className="relative">
@@ -244,7 +244,7 @@ export default function TestContactExample({
 
         {/* Email Input */}
         <div>
-          <label htmlFor="contact-email" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="contact-email" className="block text-sm font-medium text-gray-600 mb-2">
             Adresse email
           </label>
           <div className="relative">
@@ -277,7 +277,7 @@ export default function TestContactExample({
 
         {/* Subject Input */}
         <div>
-          <label htmlFor="contact-subject" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="contact-subject" className="block text-sm font-medium text-gray-600 mb-2">
             Sujet
           </label>
           <div className="relative">
@@ -310,7 +310,7 @@ export default function TestContactExample({
 
         {/* Message Textarea */}
         <div>
-          <label htmlFor="contact-message" className="block text-sm font-medium text-gray-300 mb-2">
+          <label htmlFor="contact-message" className="block text-sm font-medium text-gray-600 mb-2">
             Message
           </label>
           <textarea

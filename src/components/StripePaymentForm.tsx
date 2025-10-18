@@ -214,7 +214,7 @@ function CheckoutForm({
         <h3 className="text-2xl font-bold text-white mb-2">
           Paiement Sécurisé
         </h3>
-        <p className="text-gray-400">
+        <p className="text-gray-600">
           {productName}
         </p>
         <div className="text-3xl font-extrabold bg-gradient-to-r from-neon-violet to-neon-blue bg-clip-text text-transparent mt-2">
@@ -249,7 +249,7 @@ function CheckoutForm({
           {/* Informations client */}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Nom complet *
               </label>
               <input
@@ -264,7 +264,7 @@ function CheckoutForm({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-600 mb-2">
                 Email *
               </label>
               <input
@@ -281,7 +281,7 @@ function CheckoutForm({
 
           {/* Carte bancaire */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-gray-600 mb-2">
               Informations de carte bancaire *
             </label>
             <div className="p-4 rounded-lg bg-white border border-gray-300">
@@ -332,7 +332,7 @@ function CheckoutForm({
           </button>
 
           {/* Sécurité */}
-          <div className="flex items-center justify-center gap-2 text-sm text-gray-400">
+          <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
             <Shield size={16} />
             <span>Paiement sécurisé par Stripe • SSL/TLS</span>
           </div>

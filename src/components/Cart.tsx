@@ -48,6 +48,7 @@ export default function Cart() {
           <button
             onClick={() => window.location.href = '/'}
             className="flex items-center gap-2 text-text-secondary hover:text-neon-violet transition-colors mb-6"
+            aria-label="Retour à la page d'accueil"
           >
             <ArrowLeft size={20} />
             <span>Retour aux packs</span>
@@ -89,15 +90,17 @@ export default function Cart() {
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
                         className="w-8 h-8 rounded-full bg-bg-primary border border-neon-violet/30 hover:border-neon-violet hover:bg-neon-violet/20 transition-all flex items-center justify-center"
+                        aria-label={`Diminuer la quantité de ${item.product.name}`}
                       >
                         <Minus size={16} className="text-text-primary" />
                       </button>
                       
-                      <span className="text-xl font-bold text-text-primary w-8 text-center">{item.quantity}</span>
+                      <span className="text-xl font-bold text-text-primary w-8 text-center" aria-label={`Quantité : ${item.quantity}`}>{item.quantity}</span>
                       
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                         className="w-8 h-8 rounded-full bg-bg-primary border border-neon-violet/30 hover:border-neon-violet hover:bg-neon-violet/20 transition-all flex items-center justify-center"
+                        aria-label={`Augmenter la quantité de ${item.product.name}`}
                       >
                         <Plus size={16} className="text-text-primary" />
                       </button>
@@ -117,6 +120,7 @@ export default function Cart() {
                     <button
                       onClick={() => removeFromCart(item.product.id)}
                       className="text-red-400 hover:text-red-300 hover:scale-110 transition-all"
+                      aria-label={`Supprimer ${item.product.name} du panier`}
                     >
                       <Trash2 size={20} />
                     </button>

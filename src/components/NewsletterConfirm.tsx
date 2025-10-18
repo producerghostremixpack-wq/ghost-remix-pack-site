@@ -63,7 +63,7 @@ const NewsletterConfirm: React.FC = () => {
           <h1 className="text-2xl font-bold text-white mb-2">
             Confirmation en cours...
           </h1>
-          <p className="text-gray-400">
+          <p className="text-gray-600">
             Nous vérifions votre inscription à la newsletter.
           </p>
         </div>
@@ -81,7 +81,7 @@ const NewsletterConfirm: React.FC = () => {
           <h1 className="text-2xl font-bold text-white mb-2">
             Erreur de confirmation
           </h1>
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-600 mb-6">
             {result?.message || 'Une erreur est survenue lors de la confirmation.'}
           </p>
           <div className="space-y-3">
@@ -115,11 +115,11 @@ const NewsletterConfirm: React.FC = () => {
           <h1 className="text-3xl font-bold text-white mb-2">
             🎉 Inscription confirmée !
           </h1>
-          <p className="text-gray-300 text-lg">
+          <p className="text-gray-600 text-lg">
             Bienvenue dans la famille Ghost Remix Pack !
           </p>
-          <p className="text-sm text-gray-400 mt-2">
-            Email confirmé : <span className="text-purple-400">{email}</span>
+          <p className="text-sm text-gray-700 mt-2">
+            Email confirmé : <span className="text-purple-600">{email}</span>
           </p>
         </div>
 
@@ -135,7 +135,7 @@ const NewsletterConfirm: React.FC = () => {
                 <Download className="w-5 h-5 text-blue-400" />
                 <span className="font-semibold text-white">3 Loops Trap Exclusifs</span>
               </div>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-600">
                 Téléchargement immédiat • Valeur 15€
               </p>
             </div>
@@ -144,7 +144,7 @@ const NewsletterConfirm: React.FC = () => {
                 <ShoppingBag className="w-5 h-5 text-green-400" />
                 <span className="font-semibold text-white">Code Promo -10%</span>
               </div>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-600">
                 Utilisable immédiatement • 30 jours
               </p>
             </div>
@@ -153,7 +153,7 @@ const NewsletterConfirm: React.FC = () => {
                 <Download className="w-5 h-5 text-purple-400" />
                 <span className="font-semibold text-white">Guide PDF Pro</span>
               </div>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-600">
                 "Produire comme un pro" • 20 pages
               </p>
             </div>
@@ -162,7 +162,7 @@ const NewsletterConfirm: React.FC = () => {
                 <Users className="w-5 h-5 text-orange-400" />
                 <span className="font-semibold text-white">Accès VIP</span>
               </div>
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-600">
                 Nouveautés en avant-première
               </p>
             </div>
@@ -201,7 +201,7 @@ const NewsletterConfirm: React.FC = () => {
 
         {/* Footer */}
         <div className="mt-8 pt-6 border-t border-gray-700 text-center">
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-gray-600">
             Vous recevrez nos newsletters avec les dernières nouveautés, conseils et offres exclusives.
           </p>
           <p className="text-xs text-gray-500 mt-2">

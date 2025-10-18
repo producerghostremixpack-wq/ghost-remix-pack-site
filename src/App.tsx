@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
-import CustomCursor from './components/CustomCursor'
+// import CustomCursor from './components/CustomCursor' // Désactivé - Curseur personnalisé
 import GhostRemixPack from './components/GhostRemixPack'
 import MentionsLegales from './components/MentionsLegales'
 import ContactPage from './components/ContactPage'
@@ -19,7 +19,7 @@ import TestExamples from './pages/TestExamples'
 function App() {
   return (
     <CartProvider>
-      <CustomCursor />
+      {/* <CustomCursor /> */}
       <Router>
         <Routes>
           <Route path="/" element={<GhostRemixPack />} />

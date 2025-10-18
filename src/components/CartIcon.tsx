@@ -14,6 +14,7 @@ export default function CartIcon({ onClick }: CartIconProps) {
     <button
       onClick={onClick || (() => window.location.href = '/cart')}
       className="relative group"
+      aria-label={`Panier d'achat - ${itemCount} article${itemCount > 1 ? 's' : ''}`}
     >
       <div className="relative">
         <ShoppingCart 
