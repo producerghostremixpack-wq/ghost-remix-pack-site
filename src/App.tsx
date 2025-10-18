@@ -14,6 +14,7 @@ import NewsletterConfirm from './components/NewsletterConfirm'
 import DebuggerPage from './components/DebuggerPage'
 import DirectPaymentDemo from './components/DirectPaymentDemo'
 import TestPaiementComplet from './components/TestPaiementComplet'
+import TestExamples from './pages/TestExamples'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/newsletter/confirm" element={<NewsletterConfirm />} />
           <Route path="/debugger" element={<DebuggerPage />} />
+          <Route path="/test-examples" element={<TestExamples />} />
         </Routes>
       </Router>
     </CartProvider>

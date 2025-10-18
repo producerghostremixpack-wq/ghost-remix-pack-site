@@ -1,0 +1,844 @@
+# Ghost Remix Pack - Cursor Rules
+
+## 🎯 Project Overview
+Ghost Remix Pack is a professional web platform built with React, TypeScript, Vite, and Stripe integration for music production services.
+
+**Tech Stack:**
+- Frontend: React 18 + TypeScript + Vite
+- Styling: Tailwind CSS
+- Backend: Node.js + Express
+- Payments: Stripe (Checkout Sessions, Webhooks)
+- Email: Nodemailer + Zimbra OVH SMTP
+- Deployment: Vercel (frontend) + Railway (backend)
+
+---
+
+## 🚀 CURSOR PRO - Configuration Backend Node.js Ultra Complète
+
+### 🎯 IDENTITÉ DU PROJET
+Expert développeur Node.js backend spécialisé dans la création d'APIs REST performantes, sécurisées et maintenables.
+
+### 📋 PRINCIPES GÉNÉRAUX
+
+#### Style de Code
+- **Langue** : Code et commentaires en français pour ce projet
+- **Format** : Prettier avec config standard
+- **Indentation** : 2 espaces
+- **Quotes** : Single quotes pour JS, backticks pour templates
+- **Semicolons** : Toujours utiliser des points-virgules
+- **Line length** : Max 100 caractères
+- **Naming** :
+  - camelCase pour variables et fonctions
+  - PascalCase pour classes
+  - SCREAMING_SNAKE_CASE pour constantes
+  - kebab-case pour fichiers
+  - Noms descriptifs et en français
+
+#### Architecture
+- **Pattern** : MVC avec séparation claire des responsabilités
+- **Structure** :
+  ```
+  backend/
+  ├── config/         # Configuration (DB, env, etc.)
+  ├── controllers/    # Logique des routes
+  ├── middlewares/    # Middlewares Express
+  ├── models/         # Modèles de données
+  ├── routes/         # Définition des routes
+  ├── services/       # Logique métier
+  ├── utils/          # Utilitaires
+  ├── validators/     # Validation des données
+  └── app.js          # Application Express
+  ```
+
+### 🔧 STACK TECHNIQUE
+
+#### Core
+- **Runtime** : Node.js (LTS, >= 18.x)
+- **Framework** : Express.js 4.x
+- **Language** : JavaScript ES6+ (ou TypeScript si demandé)
+
+#### Sécurité
+- **helmet** : Protection headers HTTP
+- **cors** : Configuration stricte CORS
+- **express-rate-limit** : Rate limiting
+- **bcrypt** : Hash des mots de passe
+- **jsonwebtoken** : JWT pour auth
+- **express-validator** : Validation entrées
+
+#### Développement
+- **nodemon** : Hot reload
+- **dotenv** : Variables d'environnement
+- **eslint** : Linting (Airbnb style guide)
+- **jest** : Testing framework
+- **supertest** : Tests API
+
+### 📐 RÈGLES DE DÉVELOPPEMENT
+
+#### 1. Async/Await TOUJOURS
+❌ **NE JAMAIS** :
+```javascript
+router.get('/users', (req, res) => {
+  User.find().then(users => res.json(users));
+});
+```
+
+✅ **TOUJOURS** :
+```javascript
+router.get('/users', async (req, res, next) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+});
+```
+
+#### 2. Gestion d'Erreurs Centralisée
+Toujours créer un middleware d'erreur global :
+```javascript
+// middlewares/error-handler.js
+const errorHandler = (err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Erreur serveur';
+  
+  console.error(`[ERREUR] ${statusCode} - ${message}`);
+  
+  res.status(statusCode).json({
+    success: false,
+    error: {
+      message,
+      ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
+    }
+  });
+};
+```
+
+#### 3. Validation Systématique
+Valider TOUTES les entrées utilisateur :
+```javascript
+// validators/user-validator.js
+const { body } = require('express-validator');
+
+const validateUser = [
+  body('email').isEmail().normalizeEmail(),
+  body('password').isLength({ min: 8 }),
+  body('nom').trim().notEmpty()
+];
+
+// Dans la route
+router.post('/users', validateUser, validationMiddleware, createUser);
+```
+
+#### 4. Séparation Controllers/Services
+❌ **Éviter** :
+```javascript
+router.post('/users', async (req, res) => {
+  const user = await User.create(req.body);
+  const token = jwt.sign({ id: user.id }, SECRET);
+  await sendEmail(user.email, 'Bienvenue');
+  res.json({ user, token });
+});
+```
+
+✅ **Préférer** :
+```javascript
+// controllers/user-controller.js
+const createUser = async (req, res, next) => {
+  try {
+    const result = await userService.create(req.body);
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// services/user-service.js
+const create = async (userData) => {
+  const user = await User.create(userData);
+  const token = generateToken(user);
+  await emailService.sendWelcome(user.email);
+  return { user, token };
+};
+```
+
+#### 5. Configuration Environnement
+Toujours utiliser .env et créer .env.example :
+```bash
+# .env.example
+NODE_ENV=development
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=mydb
+DB_USER=user
+DB_PASSWORD=password
+JWT_SECRET=your-secret-key
+SENDGRID_API_KEY=your-key
+```
+
+#### 6. Logging Structuré
+Utiliser Winston ou Pino :
+```javascript
+const logger = require('./config/logger');
+
+logger.info('Serveur démarré', { port: PORT });
+logger.error('Erreur DB', { error: err.message });
+logger.warn('Rate limit atteint', { ip: req.ip });
+```
+
+#### 7. Tests Obligatoires
+Pour chaque endpoint, créer des tests :
+```javascript
+describe('POST /api/users', () => {
+  it('devrait créer un utilisateur', async () => {
+    const res = await request(app)
+      .post('/api/users')
+      .send({ email: 'test@test.com', password: 'password123' })
+      .expect(201);
+    
+    expect(res.body).toHaveProperty('user');
+    expect(res.body.user.email).toBe('test@test.com');
+  });
+});
+```
+
+### 🔐 SÉCURITÉ
+
+#### Checklist Obligatoire
+- [ ] Helmet configuré
+- [ ] CORS avec whitelist
+- [ ] Rate limiting sur toutes les routes
+- [ ] Validation et sanitization des entrées
+- [ ] Passwords hashés (bcrypt, 12 rounds minimum)
+- [ ] JWT avec expiration
+- [ ] HTTPS en production
+- [ ] Secrets dans .env (JAMAIS dans le code)
+- [ ] SQL injection prevention (prepared statements)
+- [ ] XSS prevention (sanitize HTML)
+
+#### Exemple Complet
+```javascript
+const helmet = require('helmet');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+
+app.use(helmet());
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGINS?.split(','),
+  credentials: true
+}));
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // 100 requêtes max
+});
+app.use('/api/', limiter);
+```
+
+### 📊 PERFORMANCE
+
+#### Optimisations Automatiques
+1. **Compression** : gzip sur toutes les réponses
+2. **Caching** : Headers cache appropriés
+3. **Database** : Index sur colonnes fréquentes
+4. **Pagination** : Toujours paginer les listes
+5. **Lazy loading** : Charger relations uniquement si nécessaire
+
+#### Exemple Pagination
+```javascript
+const getUsers = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
+  const offset = (page - 1) * limit;
+  
+  const users = await User.findAndCountAll({ 
+    limit, 
+    offset,
+    order: [['createdAt', 'DESC']]
+  });
+  
+  res.json({
+    data: users.rows,
+    pagination: {
+      page,
+      limit,
+      total: users.count,
+      totalPages: Math.ceil(users.count / limit)
+    }
+  });
+};
+```
+
+### 📝 DOCUMENTATION
+
+#### JSDoc Systématique
+```javascript
+/**
+ * Crée un nouvel utilisateur
+ * @param {Object} userData - Données de l'utilisateur
+ * @param {string} userData.email - Email unique
+ * @param {string} userData.password - Mot de passe (min 8 chars)
+ * @returns {Promise<Object>} Utilisateur créé avec token
+ * @throws {ValidationError} Si données invalides
+ * @throws {ConflictError} Si email déjà utilisé
+ */
+const createUser = async (userData) => {
+  // ...
+};
+```
+
+### 🎨 RÉPONSES API STANDARDISÉES
+
+#### Format Succès
+```javascript
+{
+  "success": true,
+  "data": { /* résultats */ },
+  "message": "Opération réussie"
+}
+```
+
+#### Format Erreur
+```javascript
+{
+  "success": false,
+  "error": {
+    "code": "USER_NOT_FOUND",
+    "message": "Utilisateur introuvable",
+    "details": { /* infos supplémentaires */ }
+  }
+}
+```
+
+### 🧪 TESTS
+
+#### Couverture Minimale
+- **Unitaires** : 80% minimum
+- **Intégration** : Tous les endpoints
+- **E2E** : Parcours critiques
+
+#### Organisation
+```
+tests/
+├── unit/
+│   ├── services/
+│   └── utils/
+├── integration/
+│   └── api/
+└── e2e/
+```
+
+### 🚀 DÉPLOIEMENT
+
+#### Pre-deployment Checklist
+- [ ] Tests passent (npm test)
+- [ ] Linter OK (npm run lint)
+- [ ] Variables d'env configurées
+- [ ] Database migrations appliquées
+- [ ] Logs configurés
+- [ ] Monitoring en place
+- [ ] Backups configurés
+
+### 💡 BONNES PRATIQUES SPÉCIFIQUES
+
+#### Routes RESTful
+```javascript
+GET    /api/users           # Liste
+GET    /api/users/:id       # Détail
+POST   /api/users           # Création
+PUT    /api/users/:id       # Update complet
+PATCH  /api/users/:id       # Update partiel
+DELETE /api/users/:id       # Suppression
+```
+
+#### Status Codes Appropriés
+- 200 : OK (GET, PUT, PATCH)
+- 201 : Created (POST)
+- 204 : No Content (DELETE)
+- 400 : Bad Request (validation)
+- 401 : Unauthorized (auth requise)
+- 403 : Forbidden (pas les droits)
+- 404 : Not Found
+- 409 : Conflict (duplicate)
+- 500 : Internal Server Error
+
+#### Middleware Order
+```javascript
+// 1. Parsing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// 2. Sécurité
+app.use(helmet());
+app.use(cors());
+
+// 3. Logging
+app.use(morgan('combined'));
+
+// 4. Rate limiting
+app.use(limiter);
+
+// 5. Routes
+app.use('/api', routes);
+
+// 6. 404 Handler
+app.use(notFoundHandler);
+
+// 7. Error Handler (TOUJOURS EN DERNIER)
+app.use(errorHandler);
+```
+
+### 🎯 QUAND GÉNÉRER DU CODE
+
+#### Toujours Inclure
+1. Gestion d'erreurs complète
+2. Validation des entrées
+3. Logs appropriés
+4. Documentation JSDoc
+5. Tests basiques
+6. Types/interfaces (si TypeScript)
+
+#### Ne Jamais Faire
+- Hardcoder des secrets
+- Ignorer les erreurs (empty catch)
+- Utiliser `any` en TypeScript
+- Oublier la validation
+- Routes sans middleware d'auth si nécessaire
+
+---
+
+## 📁 Project Structure
+
+```
+/
+├── src/
+│   ├── components/          # React components
+│   ├── lib/                 # Utilities and configs
+│   ├── types/               # TypeScript types
+│   └── App.tsx              # Main app component
+├── backend/
+│   ├── routes/              # API routes
+│   │   ├── contact.js       # Contact form API
+│   │   ├── newsletter.js    # Newsletter API
+│   │   ├── payment.js       # Stripe payment API
+│   │   ├── checkout-direct.js  # Direct checkout
+│   │   └── webhook.js       # Stripe webhooks
+│   └── config/              # Backend configuration
+├── public/                  # Static assets
+└── server.js                # Main backend server
+
+```
+
+---
+
+## 🎨 React Component Guidelines
+
+### Component Structure
+```typescript
+// Always use TypeScript interfaces for props
+interface ComponentProps {
+  title: string;
+  optional?: boolean;
+  children?: React.ReactNode;
+}
+
+// Use functional components with hooks
+export default function Component({ title, optional = false, children }: ComponentProps) {
+  const [state, setState] = useState<Type>();
+  
+  return (
+    <div className="tailwind-classes">
+      {/* Component content */}
+    </div>
+  );
+}
+```
+
+### Best Practices
+- ✅ Use TypeScript for all components
+- ✅ Define interfaces for props and state
+- ✅ Use Tailwind CSS for styling
+- ✅ Keep components small and focused (single responsibility)
+- ✅ Extract reusable logic into custom hooks
+- ✅ Use meaningful component and variable names
+- ❌ Avoid inline styles (use Tailwind classes)
+- ❌ Don't use `any` type (use proper TypeScript types)
+- ❌ Don't mix business logic with UI (separate concerns)
+
+### Naming Conventions
+- Components: PascalCase (e.g., `PaymentButton.tsx`)
+- Files: Match component name (e.g., `Newsletter.tsx`)
+- Functions: camelCase (e.g., `handleSubmit`)
+- Constants: UPPER_SNAKE_CASE (e.g., `API_BASE_URL`)
+- Interfaces: PascalCase with "Props" suffix (e.g., `NewsletterProps`)
+
+---
+
+## 💳 Stripe Integration Rules
+
+### Backend API Routes
+```javascript
+// Always use environment variables for Stripe keys
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
+// Payment session creation
+async function createCheckoutSession(req, res) {
+  try {
+    const session = await stripe.checkoutsessions.create({
+      // Configuration
+    });
+    res.json({ sessionId: session.id });
+  } catch (error) {
+    console.error('Stripe error:', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+```
+
+### Frontend Stripe Integration
+```typescript
+// Use loadStripe from @stripe/stripe-js
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+// Redirect to Stripe Checkout
+const handleCheckout = async () => {
+  const stripe = await stripePromise;
+  const response = await fetch('/api/checkout/create-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ productId: 'pack-complet' })
+  });
+  const { sessionId } = await response.json();
+  await stripe?.redirectToCheckout({ sessionId });
+};
+```
+
+### Stripe Best Practices
+- ✅ Always validate Stripe webhooks
+- ✅ Use environment variables for all keys
+- ✅ Handle errors gracefully with try-catch
+- ✅ Log Stripe events for debugging
+- ✅ Verify payment status before sending confirmation emails
+- ❌ Never expose secret keys in frontend
+- ❌ Never trust client-side payment data
+- ❌ Don't skip webhook signature verification
+
+---
+
+## 📧 Email Configuration (Zimbra OVH)
+
+### SMTP Configuration
+```javascript
+// Use Nodemailer with Zimbra OVH settings
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST || 'ssl0.ovh.net',
+  port: process.env.SMTP_PORT || 587,
+  secure: false, // STARTTLS
+  auth: {
+    user: process.env.SENDGRID_FROM_EMAIL,
+    pass: process.env.EMAIL_PASSWORD
+  },
+  tls: {
+    ciphers: 'SSLv3' // OVH compatibility
+  }
+});
+```
+
+### Email Best Practices
+- ✅ Use environment variables for SMTP credentials
+- ✅ Add error handling for email sending
+- ✅ Use HTML templates for professional emails
+- ✅ Include fallback text version
+- ✅ Test emails in development before production
+- ❌ Don't hardcode email credentials
+- ❌ Don't send emails without error handling
+- ❌ Don't expose email passwords in logs
+
+---
+
+## 🔌 API Routes Guidelines
+
+### Express Route Structure
+```javascript
+// Always use async/await with try-catch
+router.post('/endpoint', async (req, res) => {
+  try {
+    // Validate input
+    const { email, name } = req.body;
+    if (!email || !name) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    // Business logic
+    const result = await processData(email, name);
+    
+    // Success response
+    res.status(200).json({ success: true, data: result });
+  } catch (error) {
+    console.error('API error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+```
+
+### API Best Practices
+- ✅ Validate all input data
+- ✅ Use proper HTTP status codes (200, 400, 401, 404, 500)
+- ✅ Return consistent JSON response format
+- ✅ Add CORS configuration for frontend
+- ✅ Log errors for debugging
+- ✅ Use environment variables for sensitive data
+- ❌ Don't expose internal errors to clients
+- ❌ Don't skip input validation
+- ❌ Don't use synchronous operations for I/O
+
+---
+
+## 🎨 Tailwind CSS Guidelines
+
+### Utility Class Organization
+```tsx
+// Order: layout → spacing → typography → colors → effects
+<div className="
+  flex items-center justify-between
+  p-4 mb-6
+  text-lg font-bold
+  bg-gradient-to-r from-neon-violet to-neon-blue
+  rounded-xl shadow-lg hover:shadow-xl
+  transition-all duration-300
+">
+```
+
+### Custom Colors (Ghost Theme)
+```javascript
+// tailwind.config.js
+colors: {
+  'neon-violet': '#8b5cf6',
+  'neon-blue': '#3b82f6',
+  'neon-green': '#10b981',
+  'neon-pink': '#ec4899',
+}
+```
+
+### Tailwind Best Practices
+- ✅ Use utility classes instead of custom CSS
+- ✅ Group related classes logically
+- ✅ Use responsive prefixes (sm:, md:, lg:)
+- ✅ Leverage Tailwind's color system
+- ✅ Use hover:, focus:, active: states
+- ❌ Don't use inline styles
+- ❌ Don't create unnecessary custom CSS
+- ❌ Don't use arbitrary values unless necessary
+
+---
+
+## 🔐 Environment Variables
+
+### Required Variables
+```bash
+# Frontend (.env)
+VITE_BACKEND_URL=https://ghost-remix-backend.up.railway.app
+VITE_CONTACT_BACKEND_URL=https://ghost-remix-backend.up.railway.app
+VITE_STRIPE_PUBLISHABLE_KEY=pk_test_...
+
+# Backend (.env)
+PORT=3001
+NODE_ENV=production
+FRONTEND_URL=https://www.ghostremixpack.com
+
+# Email (Zimbra OVH)
+SMTP_HOST=ssl0.ovh.net
+SMTP_PORT=587
+SENDGRID_FROM_EMAIL=contact@ghostremixpack.com
+EMAIL_PASSWORD=your-password
+
+# Stripe
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+### Environment Best Practices
+- ✅ Use `.env` for local development
+- ✅ Never commit `.env` files to Git
+- ✅ Use `.env.example` as template
+- ✅ Validate env vars on app startup
+- ✅ Use descriptive variable names
+- ❌ Don't hardcode sensitive data
+- ❌ Don't commit secrets to Git
+- ❌ Don't use production keys in development
+
+---
+
+## 🚀 Deployment Guidelines
+
+### Vercel (Frontend)
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment variables: Add all `VITE_*` variables
+- Framework preset: Vite
+
+### Railway (Backend)
+- Build command: `npm install`
+- Start command: `node server.js`
+- Root directory: Project root (not `/backend`)
+- Environment variables: Add all backend variables
+- Health check: `/api/health`
+
+### Deployment Best Practices
+- ✅ Test locally before deploying
+- ✅ Check environment variables on platform
+- ✅ Monitor deployment logs
+- ✅ Test production URLs after deploy
+- ✅ Keep deployment platforms in sync with Git
+- ❌ Don't deploy with console errors
+- ❌ Don't skip environment variable setup
+- ❌ Don't deploy without testing
+
+---
+
+## 🧪 Testing Guidelines
+
+### Component Testing
+```typescript
+// Test user interactions
+test('handles form submission', async () => {
+  render(<ContactForm />);
+  const emailInput = screen.getByLabelText(/email/i);
+  fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
+  fireEvent.click(screen.getByRole('button', { name: /submit/i }));
+  await waitFor(() => expect(screen.getByText(/success/i)).toBeInTheDocument());
+});
+```
+
+### API Testing
+```javascript
+// Test API endpoints
+test('POST /api/contact sends email', async () => {
+  const response = await request(app)
+    .post('/api/contact')
+    .send({ email: 'test@example.com', message: 'Test' });
+  expect(response.status).toBe(200);
+  expect(response.body.success).toBe(true);
+});
+```
+
+---
+
+## 🐛 Debugging Guidelines
+
+### Console Logging
+```javascript
+// Use descriptive log messages
+console.log('📧 Sending email to:', recipient);
+console.error('❌ Stripe error:', error.message);
+console.warn('⚠️ Missing environment variable:', varName);
+```
+
+### Error Handling
+```typescript
+try {
+  await riskyOperation();
+} catch (error) {
+  console.error('Operation failed:', error);
+  // Provide fallback or user-friendly message
+  showError('Something went wrong. Please try again.');
+}
+```
+
+---
+
+## 📝 Code Quality Rules
+
+### General Rules
+- ✅ Write self-documenting code with clear names
+- ✅ Add comments for complex logic only
+- ✅ Keep functions under 50 lines
+- ✅ Extract repeated code into functions
+- ✅ Use TypeScript strictly (no `any`)
+- ✅ Format code with Prettier
+- ❌ Don't leave TODO comments in production
+- ❌ Don't use magic numbers (use constants)
+- ❌ Don't write overly complex functions
+- ❌ Don't ignore TypeScript errors
+
+### Git Commit Messages
+```bash
+# Format: type(scope): description
+
+feat(payment): add Stripe checkout integration
+fix(email): correct SMTP configuration for OVH
+refactor(components): extract reusable payment button
+docs(readme): update deployment instructions
+test(api): add newsletter subscription tests
+```
+
+---
+
+## 🎯 Ghost Remix Pack Specific Rules
+
+### Product Configuration
+```typescript
+// Always define product data with null images
+const PRODUCTS = {
+  'pack-complet': {
+    id: 'pack-complet',
+    name: 'Pack Complet Ghost',
+    price: 29900, // in cents
+    image: null, // No images in products
+    description: '...'
+  }
+};
+```
+
+### Payment Flow
+1. User clicks "Acheter" button
+2. Frontend calls `/api/payment/create-checkout-session`
+3. Backend creates Stripe Checkout Session
+4. User redirected to Stripe Checkout
+5. User completes payment
+6. Stripe webhook confirms payment
+7. Backend sends confirmation email via Zimbra OVH
+
+### Email Templates
+- Newsletter subscription confirmation
+- Contact form submission receipt
+- Payment confirmation with order details
+- Welcome email for new customers
+
+---
+
+## 🚨 Critical Rules (MUST FOLLOW)
+
+1. **Never expose Stripe secret keys** in frontend or Git
+2. **Always validate** Stripe webhook signatures
+3. **Always use environment variables** for sensitive data
+4. **Always handle errors** in async operations
+5. **Always test** email sending before production
+6. **Always validate** user input in API routes
+7. **Always use TypeScript** types (no `any`)
+8. **Always use Tailwind** for styling (no inline styles)
+9. **Always commit** with descriptive messages
+10. **Always test** locally before deploying
+
+---
+
+## 📚 Additional Resources
+
+- [React Documentation](https://react.dev)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS Docs](https://tailwindcss.com/docs)
+- [Stripe API Docs](https://stripe.com/docs/api)
+- [Nodemailer Docs](https://nodemailer.com/about/)
+- [Vite Guide](https://vitejs.dev/guide/)
+- [Vercel Deployment](https://vercel.com/docs)
+- [Railway Docs](https://docs.railway.app)
+
+---
+
+**Remember:** Write clean, maintainable, and secure code. Think about the next developer who will read your code. Make it easy for them to understand and modify. 🚀
