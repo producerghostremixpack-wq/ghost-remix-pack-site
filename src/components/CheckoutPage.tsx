@@ -167,7 +167,7 @@ function OrderSummary({ cart, total }: { cart: CartItem[], total: number }) {
 
               <div className="text-right">
                 <div className="font-bold text-lg text-text-primary">{product.price}€</div>
-                {product.originalPrice && (
+                {'originalPrice' in product && product.originalPrice && (
                   <div className="text-sm text-text-secondary line-through">{product.originalPrice}€</div>
                 )}
                 <div className="text-xs text-neon-violet">Qté: {item.quantity}</div>
@@ -267,7 +267,6 @@ function PaymentForm({
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -317,7 +316,6 @@ function PaymentForm({
     } catch (error) {
       console.error('Erreur paiement:', error);
       setErrorMessage(error instanceof Error ? error.message : 'Erreur lors du paiement');
-      setPaymentStatus('error');
     } finally {
       setIsProcessing(false);
     }

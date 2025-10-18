@@ -3,17 +3,13 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  CreditCard, 
   Shield, 
   Lock, 
   CheckCircle, 
   AlertCircle, 
   Loader,
   ExternalLink,
-  Star,
-  Download,
-  Music,
-  Zap
+  Music
 } from 'lucide-react';
 
 // Configuration Stripe
@@ -52,7 +48,6 @@ const GHOST_PRODUCTS = {
     originalPrice: 53,
     description: 'Tous les packs + bonus exclusifs (Économie 8€)',
     features: ['37+ tracks WAV', 'Tous les stems', '50+ samples', 'Bonus exclusifs'],
-    originalPrice: 53,
     image: null,
     isPopular: true
   }
@@ -115,7 +110,7 @@ export default function SecurePayment({ className = '' }: SecurePaymentProps) {
                   onClick={() => setSelectedProduct(product.id)}
                 >
                   {/* Badge populaire */}
-                  {product.isPopular && (
+                  {'isPopular' in product && product.isPopular && (
                     <div className="absolute -top-3 left-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                       🏆 LE PLUS POPULAIRE
                     </div>
@@ -133,7 +128,7 @@ export default function SecurePayment({ className = '' }: SecurePaymentProps) {
                         <h4 className="font-bold text-text-primary">{product.name}</h4>
                         <div className="flex items-center gap-2">
                           <span className="text-xl font-bold text-neon-violet">{product.price}€</span>
-                          {product.originalPrice && (
+                          {'originalPrice' in product && product.originalPrice && (
                             <span className="text-sm line-through text-text-secondary">{product.originalPrice}€</span>
                           )}
                         </div>
@@ -372,7 +367,7 @@ function PaymentForm({ selectedProduct }: { selectedProduct: string }) {
           </div>
           <div className="text-right">
             <div className="text-2xl font-bold text-neon-violet">{product.price}€</div>
-            {product.originalPrice && (
+            {'originalPrice' in product && product.originalPrice && (
               <div className="text-sm line-through text-text-secondary">{product.originalPrice}€</div>
             )}
           </div>

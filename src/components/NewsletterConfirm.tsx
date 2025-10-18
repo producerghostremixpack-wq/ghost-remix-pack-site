@@ -31,8 +31,8 @@ const NewsletterConfirm: React.FC = () => {
         setResult(data);
 
         // Analytics si succès
-        if (data.success && typeof gtag !== 'undefined') {
-          gtag('event', 'newsletter_confirm', {
+        if (data.success && typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'newsletter_confirm', {
             event_category: 'engagement',
             event_label: 'newsletter_confirmation',
             value: 1

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { CreditCard, Lock, Loader, ExternalLink, Check } from 'lucide-react';
 
@@ -19,42 +19,8 @@ interface PaymentButtonProps {
   onError?: (error: string) => void;
 }
 
-// Configuration des produits Ghost Remix Pack
-const GHOST_PRODUCTS = {
-  'pack-house': {
-    id: 'pack-house',
-    name: 'Pack House Premium',
-    price: 15,
-    description: '15 tracks House + stems + samples exclusifs',
-    image: null
-  },
-  'pack-afro': {
-    id: 'pack-afro', 
-    name: 'Pack Afro Vibes',
-    price: 18,
-    description: '12 tracks Afro + percussion loops uniques',
-    image: null
-  },
-  'pack-rap': {
-    id: 'pack-rap',
-    name: 'Pack Rap FR', 
-    price: 20,
-    description: '10 instrumentales Rap français + MIDI',
-    image: null
-  },
-  'pack-complet': {
-    id: 'pack-complet',
-    name: 'Pack Complet Ghost',
-    price: 45,
-    originalPrice: 53,
-    description: 'Tous les packs + bonus exclusifs (Économie 8€)',
-    image: null
-  }
-};
-
 export default function PaymentButton({
   productId,
-  productName,
   price,
   originalPrice,
   description,

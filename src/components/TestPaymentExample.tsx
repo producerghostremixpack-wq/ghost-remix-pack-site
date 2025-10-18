@@ -74,7 +74,7 @@ export default function TestPaymentExample({
         throw new Error(errorData.error || 'Failed to create checkout session');
       }
 
-      const { sessionId } = await response.json();
+      const data = await response.json();
 
       // Redirect to Stripe Checkout
       const stripe = await stripePromise;
@@ -82,13 +82,8 @@ export default function TestPaymentExample({
         throw new Error('Stripe failed to load');
       }
 
-      const { error: stripeError } = await stripe.redirectToCheckout({
-        sessionId,
-      });
-
-      if (stripeError) {
-        throw new Error(stripeError.message);
-      }
+      // Rediriger vers la page de checkout Stripe
+      window.location.href = data.url;
 
       setSuccess(true);
     } catch (err) {

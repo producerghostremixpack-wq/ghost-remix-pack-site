@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   CreditCard, 
   Mail, 
   CheckCircle, 
-  AlertTriangle,
-  ExternalLink,
-  Download,
   Star,
-  Clock,
   Music,
-  Shield,
   Zap
 } from 'lucide-react';
 import PaymentButton from './PaymentButton';

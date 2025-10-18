@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   CreditCard, 
@@ -15,8 +15,7 @@ import {
 import PaymentButton, { 
   PaymentButtonHouse, 
   PaymentButtonAfro, 
-  PaymentButtonRap, 
-  PaymentButtonComplet 
+  PaymentButtonRap
 } from './PaymentButton';
 import QuickBuyModal from './QuickBuyModal';
 

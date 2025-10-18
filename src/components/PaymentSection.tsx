@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   CreditCard, 
@@ -9,7 +9,6 @@ import {
   CheckCircle,
   Star
 } from 'lucide-react';
-import PaymentButton, { PaymentButtonComplet } from './PaymentButton';
 import QuickBuyModal from './QuickBuyModal';
 
 export default function PaymentSection() {
@@ -157,18 +156,11 @@ export default function PaymentSection() {
                 ))}
               </div>
 
-              {/* Bouton Pack Complet */}
+              {/* Bouton d'action */}
               <div className="space-y-3">
-                <PaymentButtonComplet
-                  variant={method.variant}
-                  size="md"
-                  className="w-full"
-                  onSuccess={() => console.log(`Paiement initié via ${method.title}`)}
-                />
-                
                 <button
                   onClick={method.buttonAction}
-                  className="w-full text-neon-violet hover:text-neon-cyan transition-colors text-sm font-semibold"
+                  className="w-full bg-gradient-to-r from-neon-violet to-neon-cyan text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
                 >
                   {method.buttonText}
                 </button>

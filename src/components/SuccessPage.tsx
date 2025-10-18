@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -10,7 +10,8 @@ import {
   Twitter,
   Instagram,
   Copy,
-  ExternalLink
+  ExternalLink,
+  AlertCircle
 } from 'lucide-react';
 
 interface OrderDetails {
@@ -57,10 +58,6 @@ export default function SuccessPage() {
     }
   };
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    // Vous pourriez ajouter une notification toast ici
-  };
 
   if (loading) {
     return (
@@ -145,7 +142,7 @@ export default function SuccessPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
           >
-            <DownloadSection orderDetails={orderDetails} />
+            <DownloadSection />
           </motion.div>
 
         </div>
@@ -231,7 +228,7 @@ function OrderConfirmation({ orderDetails }: { orderDetails: OrderDetails | null
   );
 }
 
-function DownloadSection({ orderDetails }: { orderDetails: OrderDetails | null }) {
+function DownloadSection() {
   return (
     <div className="bg-bg-card border border-neon-violet/20 rounded-xl p-6">
       <h2 className="text-xl font-bold text-text-primary mb-4 flex items-center gap-2">

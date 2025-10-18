@@ -939,7 +939,7 @@ export default function GhostRemixPack() {
           </p>
           
           {/* Newsletter Form */}
-          <Newsletter className="max-w-2xl mx-auto" />
+          <Newsletter />
           
           {/* Infos légales */}
           <p className="text-text-secondary/70 text-xs mb-6 max-w-2xl mx-auto mt-8">
